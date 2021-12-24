@@ -12,7 +12,7 @@ export const Account: React.FC = () => {
   return (
     <Main>
       <h2 className="text-xl mb-4">アカウント情報</h2>
-      {session && (
+      {session && profile && (
         <>
           <p>userId: {session.user?.id}</p>
           <p>email: {session.user?.email}</p>

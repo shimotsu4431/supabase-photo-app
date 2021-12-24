@@ -6,7 +6,6 @@ export const AccountEdit: React.FC = () => {
   const [nickName, setNickName] = useState<string>('')
 
   const {
-    session,
     profile,
     updateNickname
   } = useUser()
@@ -28,7 +27,7 @@ export const AccountEdit: React.FC = () => {
   return (
     <Main>
       <h2 className="text-xl mb-4">アカウント情報 - 編集</h2>
-      {session && (
+      {profile && (
         <>
           <form onSubmit={handleUpdate}>
             <label htmlFor="nickname" className='block mb-2'>ニックネーム</label>
