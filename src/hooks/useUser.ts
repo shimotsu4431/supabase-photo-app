@@ -1,3 +1,4 @@
+import Router from 'next/router'
 import { Auth } from "@supabase/ui";
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
@@ -53,12 +54,24 @@ const useUser = () => {
     setProfile(null)
   }
 
+  const updateNickname = async (nickname: string) => {
+    const { data: newUser } = await supabase
+      .from("users")
+      .update({ nickname })
+      .match({ id: user?.id })
+      .single();
+
+    setProfile(newUser);
+    Router.push('/account')
+  }
+
   return {
     user,
     session,
     profile,
     signInWithGoogle,
     signOut,
+    updateNickname,
   };
 }
 

@@ -1,11 +1,11 @@
 import type { NextPage } from 'next'
 import Router from 'next/router'
 import { useEffect } from 'react'
-import { Account } from '../components/page/Account'
-import { Layout } from '../components/ui/Layout'
-import { useUser } from '../hooks/useUser'
+import { AccountEdit } from '../../../components/page/AccountEdit'
+import { Layout } from '../../../components/ui/Layout'
+import { useUser } from '../../../hooks/useUser'
 
-const AccountPage: NextPage = () => {
+const AccountEditPage: NextPage = () => {
   const {
     session,
   } = useUser()
@@ -17,9 +17,9 @@ const AccountPage: NextPage = () => {
 
   return (
     <Layout>
-      <Account />
+      <AccountEdit />
     </Layout>
   )
 }
 
-export default AccountPage
+export default AccountEditPage

@@ -11,16 +11,18 @@ export const Account: React.FC = () => {
 
   return (
     <Main>
-      <h2 className="text-xl mb-4">Account</h2>
+      <h2 className="text-xl mb-4">アカウント情報</h2>
       {session && (
         <>
           <p>userId: {session.user?.id}</p>
           <p>email: {session.user?.email}</p>
           <p>name: {session.user?.user_metadata.name}</p>
-          <p>nickName: {profile?.nickname ?? "[未設定]"}</p>
-          <Link href="/account/edit">
-            <a className='underline'>編集</a>
-          </Link>
+          <p>nickName: {profile?.nickname ?? ""}</p>
+          <p className='mt-2'>
+            <Link href="/account/edit">
+              <a className='underline'>編集</a>
+            </Link>
+          </p>
         </>
       )}
     </Main>
