@@ -4,7 +4,8 @@ import { useUser } from '../hooks/useUser'
 
 const Home: NextPage = () => {
   const {
-    session
+    session,
+    signOut
   } = useUser()
 
   console.log("session", session)
@@ -16,6 +17,7 @@ const Home: NextPage = () => {
         <>
           <p>userId: {session.user?.id}</p>
           <p>email: {session.user?.email}</p>
+          <button onClick={signOut} className='border-gray-300 border-2 rounded p-1 mt-4'>ログアウト</button>
         </>
       ) : (
         <p><Link href={'/login'}><a>ログイン</a></Link></p>
