@@ -2,6 +2,7 @@ import Router from 'next/router'
 import { Auth } from "@supabase/ui";
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
+import { toast } from 'react-toastify';
 
 type Profile = {
   avatarurl: string | null
@@ -62,6 +63,7 @@ const useUser = () => {
       .single();
 
     setProfile(newUser);
+    toast('ニックネームを更新しました！')
     Router.push('/account')
   }
 
