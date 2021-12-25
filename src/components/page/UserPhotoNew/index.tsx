@@ -6,6 +6,8 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { Profile } from '../../../hooks/useUser'
 import { supabase } from '../../../utils/supabaseClient'
 import { Main } from '../../ui/Main'
+import Router from 'next/router';
+import { toast } from 'react-toastify';
 
 type props = {
   user: Profile
@@ -29,11 +31,9 @@ export const UserPhotoNew: React.FC<props> = ({ user }) => {
 
     const file = event.target.files[0];
     setImage(file)
-    console.log("file", file)
 
-    let blob = new Blob([file])
-    var url = URL.createObjectURL(blob);
-    console.log(url)
+    const blob = new Blob([file])
+    const url = URL.createObjectURL(blob);
     setPreviewUrl(url)
   }
 
@@ -45,33 +45,30 @@ export const UserPhotoNew: React.FC<props> = ({ user }) => {
     const uuid = uuidv4()
     const newImageKey = uuid.split('-')[uuid.split('-').length - 1]
 
-    // todo: try-catch 構文にする
+    try {
+      // storage に画像をアップロード
+      const { data: inputData } = await supabase
+        .storage
+        .from('photos')
+        .upload(`${user.id}/${newImageKey}`, newImage, {
+          cacheControl: '3600',
+          upsert: false
+        })
 
-    // storage に画像をアップロード
-    const { data: inputData, error } = await supabase
-    .storage
-    .from('photos')
-    .upload(`${user.id}/${newImageKey}`, newImage, {
-      cacheControl: '3600',
-      upsert: false // upsert とは？
-    })
-    console.log("inputData", inputData)
-    console.log("error", error)
-
-    // ③image table にレコード作成
-    // inputData.key が image.url に入る
-    const { data: newData, error: createRecordError } = await supabase
-      .from('photos')
-      .insert([{
+      // DBにレコード作成
+      await supabase.from('photos').insert([{
         userId: user.id,
         title: title,
         is_published: isPublished,
         url: inputData?.Key
       }])
 
-    console.log("newData", newData)
-
-    // ④アカウントページに遷移
+      toast.success("画像を投稿しました！")
+      Router.push(`/${user.fullname}`)
+    } catch(error) {
+      console.log(error)
+      toast.error("エラーが発生しました。")
+    }
   }
 
   return (
@@ -96,7 +93,7 @@ export const UserPhotoNew: React.FC<props> = ({ user }) => {
           />
           {previewUrl && (
             <div className='mt-4'>
-              <Image className='w-4/12' src={previewUrl} alt="image" width={300} height={300} layout='fixed' objectFit={"contain"} />
+              <Image className='w-4/12' src={previewUrl} alt="image" width={300} height={200} layout='fixed' objectFit={"contain"} />
             </div>
           )}
 

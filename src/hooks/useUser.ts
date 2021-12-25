@@ -63,7 +63,7 @@ const useUser = () => {
       .single();
 
     setProfile(newUser);
-    toast('ニックネームを更新しました！')
+    toast.success('ニックネームを更新しました！')
     Router.push('/account')
   }
 
