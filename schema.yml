@@ -1,0 +1,22 @@
+# ユーザー
+users:
+    id: string
+    fullname: string
+    avatarURL: string
+    nickname: string
+
+# 投稿画像
+photos:
+  id: string
+  userId: string
+  createdAt: Timestamp
+  updatedAt: Timestamp
+  title: string
+
+# 画像へのコメント
+comments:
+  id: string
+  userId: string
+  createdAt: Timestamp
+  updatedAt: Timestamp
+  body: string

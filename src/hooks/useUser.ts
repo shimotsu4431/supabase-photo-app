@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 import { toast } from 'react-toastify';
 
-type Profile = {
+export type Profile = {
   avatarurl: string | null
   fullname: string | null
   id: string | null
