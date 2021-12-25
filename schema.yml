@@ -12,6 +12,8 @@ photos:
   createdAt: Timestamp
   updatedAt: Timestamp
   title: string
+  isPublished: string
+  url: string
 
 # 画像へのコメント
 comments:
