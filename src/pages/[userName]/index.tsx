@@ -5,16 +5,17 @@ import { Profile } from '../../hooks/useUser';
 import { PublicPhoto } from '../../types/publicPhoto';
 import { supabase } from '../../utils/supabaseClient';
 import { removeBucketPath } from '../../utils/removeBucketPath';
+import { SUPABASE_BUCKET_PHOTOS_PATH, SUPABASE_BUCKET_USERS_PATH } from '../../utils/const';
 
 export async function getServerSideProps({ req, params }: GetServerSidePropsContext) {
   const { data: user } = await supabase
-    .from("users")
+    .from(SUPABASE_BUCKET_USERS_PATH)
     .select("*")
     .eq("fullname", params?.userName)
     .single();
 
   const { data: photos } = await supabase
-    .from("photos")
+    .from(SUPABASE_BUCKET_PHOTOS_PATH)
     .select("*")
     .eq("userId", user.id)
     .order("created_at", { ascending: false })
@@ -24,7 +25,7 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
   async function setPublicPhotos() {
     if (photos) {
       for (const photo of photos) {
-        const { publicURL, error } = supabase.storage.from("photos").getPublicUrl(removeBucketPath(photo.url, "photos"))
+        const { publicURL, error } = supabase.storage.from(SUPABASE_BUCKET_PHOTOS_PATH).getPublicUrl(removeBucketPath(photo.url, SUPABASE_BUCKET_PHOTOS_PATH))
         if (error || !publicURL) {
           throw error
         }

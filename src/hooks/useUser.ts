@@ -3,6 +3,7 @@ import { Auth } from "@supabase/ui";
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 import { toast } from 'react-toastify';
+import { SUPABASE_BUCKET_USERS_PATH } from '../utils/const';
 
 export type Profile = {
   avatarurl: string | null
@@ -36,7 +37,7 @@ const useUser = () => {
     const setupProfile = async () => {
       if (session?.user?.id) {
         const { data: user } = await supabase
-          .from("users")
+          .from(SUPABASE_BUCKET_USERS_PATH)
           .select("*")
           .eq("id", session.user.id)
           .single();
@@ -57,7 +58,7 @@ const useUser = () => {
 
   const updateNickname = async (nickname: string) => {
     const { data: newUser } = await supabase
-      .from("users")
+      .from(SUPABASE_BUCKET_USERS_PATH)
       .update({ nickname })
       .match({ id: user?.id })
       .single();
