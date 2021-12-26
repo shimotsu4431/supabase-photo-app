@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import Image from 'next/image'
 import { Profile, useUser } from '../../../hooks/useUser'
 import { Main } from '../../ui/Main'
 import { PublicPhoto } from '../../../types/publicPhoto'
 import Link from 'next/link'
+import { supabase } from '../../../utils/supabaseClient'
+import { toast } from 'react-toastify'
+import Router from 'next/router'
 
 type props = {
   user: Profile
@@ -12,6 +15,19 @@ type props = {
 
 export const UserDetail: React.FC<props> = ({ user, publicPhotos }) => {
   const { user: sessionUser } = useUser()
+
+  const handleDelete = useCallback(async (id: number) => {
+    if (!window.confirm("削除しますか？")) return
+
+    try {
+      await supabase.from('photos').delete().eq('id', id)
+      toast.success('削除しました')
+      Router.push(`/${user.fullname}`)
+    } catch (error) {
+      console.log(error)
+      toast.error('削除に失敗しました。')
+    }
+  },[user.fullname])
 
   return (
     <Main>
@@ -42,6 +58,9 @@ export const UserDetail: React.FC<props> = ({ user, publicPhotos }) => {
                     </div>
                     <div className='inline-block'>
                       <Link href={`/${user.fullname}/photo/${p.id}/edit`}><a className='underline'>編集</a></Link>
+                    </div>
+                    <div>
+                      <button onClick={() => handleDelete(p.id)} className='mt-2 border-2 w-1/12 border-red-500'>削除</button>
                     </div>
                   </>
                 )}
