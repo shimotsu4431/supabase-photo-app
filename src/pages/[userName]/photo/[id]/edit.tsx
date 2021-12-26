@@ -8,7 +8,16 @@ import { removeBucketPath } from '../../../../utils/removeBucketPath';
 import { supabase } from '../../../../utils/supabaseClient';
 
 export async function getServerSideProps({ req, params }: GetServerSidePropsContext) {
-  console.log("params", params)
+  const { token } = await supabase.auth.api.getUserByCookie(req);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
   const { data: user } = await supabase
     .from(SUPABASE_BUCKET_USERS_PATH)
