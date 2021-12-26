@@ -31,10 +31,7 @@ export const UserPhotoNew: React.FC<props> = ({ user }) => {
 
     const file = event.target.files[0];
     setImage(file)
-
-    const blob = new Blob([file])
-    const url = URL.createObjectURL(blob);
-    setPreviewUrl(url)
+    setPreviewUrl(URL.createObjectURL(file))
   }
 
   const onSubmit: SubmitHandler<Inputs> = async (data, event): Promise<void> => {

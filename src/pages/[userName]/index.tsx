@@ -5,6 +5,7 @@ import { Layout } from '../../components/ui/Layout'
 import { Profile } from '../../hooks/useUser';
 import { PublicPhoto } from '../../types/publicPhoto';
 import { supabase } from '../../utils/supabaseClient';
+import { removeBucketPath } from '../../utils/removeBucketPath';
 
 export async function getServerSideProps({ req, params }: GetServerSidePropsContext) {
   const { data: user } = await supabase
@@ -24,7 +25,7 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
   async function setPublicPhotos() {
     if (photos) {
       for (const photo of photos) {
-        const { publicURL, error } = supabase.storage.from("photos").getPublicUrl(`${photo.url.slice(7)}`) //FIXME
+        const { publicURL, error } = supabase.storage.from("photos").getPublicUrl(removeBucketPath(photo.url, "photos"))
         if (error || !publicURL) {
           throw error
         }
