@@ -7,11 +7,11 @@ import { supabase } from '../../../utils/supabaseClient'
 import { Main } from '../../ui/Main'
 import Router from 'next/router';
 import { toast } from 'react-toastify';
-import { EditPhoto } from '../../../types/editPhoto';
+import { PublicPhoto } from '../../../types/PublicPhoto';
 
 type props = {
   user: Profile
-  photoData: EditPhoto
+  photoData: PublicPhoto
 }
 
 type Inputs = {

@@ -17,7 +17,6 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
     .from("photos")
     .select("*")
     .eq("userId", user.id)
-    .eq('is_published', true)
     .order("created_at", { ascending: false })
 
   const publicPhotos: PublicPhoto[] = []
@@ -34,7 +33,8 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
           id: photo.id,
           key: photo.url.split('/')[2],
           title: photo.title,
-          src: publicURL
+          src: publicURL,
+          isPublished: photo.is_published
         })
       }
     }

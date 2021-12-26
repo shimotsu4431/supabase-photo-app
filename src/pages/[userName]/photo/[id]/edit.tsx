@@ -2,7 +2,7 @@ import type { GetServerSidePropsContext, NextPage } from 'next'
 import { UserPhotoEdit } from '../../../../components/page/UserPhotoEdit';
 import { Layout } from '../../../../components/ui/Layout';
 import { Profile } from '../../../../hooks/useUser';
-import { EditPhoto } from '../../../../types/editPhoto';
+import { PublicPhoto } from '../../../../types/PublicPhoto';
 import { removeBucketPath } from '../../../../utils/removeBucketPath';
 import { supabase } from '../../../../utils/supabaseClient';
 
@@ -38,7 +38,7 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
     }
   }
 
-  const photoData: EditPhoto | undefined = await setPublicPhotos()
+  const photoData: PublicPhoto | undefined = await setPublicPhotos()
   if (!user || !photoData) {
     return { notFound: true }
   }
@@ -47,7 +47,7 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
 
 type props = {
   user: Profile
-  photoData: EditPhoto
+  photoData: PublicPhoto
 }
 
 const setPubUserPhotoEditPagelicPhotos: NextPage<props> = ({ user, photoData }) => {

@@ -3,4 +3,5 @@ export type PublicPhoto = {
   key: string
   title: string,
   src: string
+  isPublished: boolean
 }

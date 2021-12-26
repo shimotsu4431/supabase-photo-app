@@ -25,6 +25,8 @@ export const UserDetail: React.FC<props> = ({ user, publicPhotos }) => {
       <div className='py-2'>
         <ul>
           {publicPhotos.map((p) => {
+            if (sessionUser?.id !== user.id && !p.isPublished) return null
+
             return (
               <li key={p.id} className='mb-6 flex flex-col'>
                 <h3 className='text-xl'>{p.title}</h3>
@@ -34,9 +36,14 @@ export const UserDetail: React.FC<props> = ({ user, publicPhotos }) => {
                   </a>
                 </Link>
                 {sessionUser?.id === user.id && (
-                  <div className='inline-block'>
-                    <Link href={`/${user.fullname}/photo/${p.id}/edit`}><a className='underline'>編集</a></Link>
-                  </div>
+                  <>
+                    <div className='inline-block'>
+                      公開ステータス: {p.isPublished ? "公開" : "未公開"}
+                    </div>
+                    <div className='inline-block'>
+                      <Link href={`/${user.fullname}/photo/${p.id}/edit`}><a className='underline'>編集</a></Link>
+                    </div>
+                  </>
                 )}
               </li>
             )
