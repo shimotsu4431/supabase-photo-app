@@ -42,7 +42,7 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
 
   const photoData: PublicPhoto | undefined = await setPublicPhotos()
 
-  if (!user || !photoData) {
+  if (!user || !photoData || !photoData.isPublished) {
     return { notFound: true }
   }
   return { props: { user, photoData } };
