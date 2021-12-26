@@ -1,5 +1,5 @@
 import type { GetServerSidePropsContext, NextPage } from 'next'
-import { UserPhotoEdit } from '../../../../components/page/UserPhotoEdit';
+import { UserPhoto } from '../../../../components/page/UserPhoto';
 import { Layout } from '../../../../components/ui/Layout';
 import { Profile } from '../../../../hooks/useUser';
 import { PublicPhoto } from '../../../../types/publicPhoto';
@@ -9,17 +9,6 @@ import { removeBucketPath } from '../../../../utils/removeBucketPath';
 import { supabase } from '../../../../utils/supabaseClient';
 
 export async function getServerSideProps({ req, params }: GetServerSidePropsContext) {
-  const { token } = await supabase.auth.api.getUserByCookie(req);
-
-  if (!token) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
   const { data: user } = await supabase
     .from(SUPABASE_BUCKET_USERS_PATH)
     .select("*")
@@ -39,6 +28,8 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
           throw error
         }
 
+      console.log(photo.url)
+
       return {
         id: photo.id,
         key: getPhotoKeyFromBucketPath(photo.url),
@@ -50,6 +41,7 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
   }
 
   const photoData: PublicPhoto | undefined = await setPublicPhotos()
+
   if (!user || !photoData) {
     return { notFound: true }
   }
@@ -61,12 +53,12 @@ type props = {
   photoData: PublicPhoto
 }
 
-const UserPhotoEditPage: NextPage<props> = ({ user, photoData }) => {
+const UserPhotoPage: NextPage<props> = ({ user, photoData }) => {
   return (
     <Layout>
-      <UserPhotoEdit user={user} photoData={photoData} />
+      <UserPhoto user={user} photoData={photoData} />
     </Layout>
   )
 }
 
-export default UserPhotoEditPage
+export default UserPhotoPage

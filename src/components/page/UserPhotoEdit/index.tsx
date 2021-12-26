@@ -7,7 +7,7 @@ import { supabase } from '../../../utils/supabaseClient'
 import { Main } from '../../ui/Main'
 import Router from 'next/router';
 import { toast } from 'react-toastify';
-import { PublicPhoto } from '../../../types/PublicPhoto';
+import { PublicPhoto } from '../../../types/publicPhoto';
 
 type props = {
   user: Profile

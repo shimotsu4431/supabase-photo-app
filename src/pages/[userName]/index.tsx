@@ -6,6 +6,7 @@ import { PublicPhoto } from '../../types/publicPhoto';
 import { supabase } from '../../utils/supabaseClient';
 import { removeBucketPath } from '../../utils/removeBucketPath';
 import { SUPABASE_BUCKET_PHOTOS_PATH, SUPABASE_BUCKET_USERS_PATH } from '../../utils/const';
+import { getPhotoKeyFromBucketPath } from '../../utils/getPhotoKeyFromBucketPath';
 
 export async function getServerSideProps({ req, params }: GetServerSidePropsContext) {
   const { data: user } = await supabase
@@ -32,7 +33,7 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
 
         publicPhotos.push({
           id: photo.id,
-          key: photo.url.split('/')[2],
+          key: getPhotoKeyFromBucketPath(photo.url),
           title: photo.title,
           src: publicURL,
           isPublished: photo.is_published
