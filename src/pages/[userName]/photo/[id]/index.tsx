@@ -28,8 +28,6 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
           throw error
         }
 
-      console.log(photo.url)
-
       return {
         id: photo.id,
         key: getPhotoKeyFromBucketPath(photo.url),
