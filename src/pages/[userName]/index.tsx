@@ -1,4 +1,3 @@
-import superjson from 'superjson';
 import type { GetServerSidePropsContext, NextPage } from 'next'
 import { UserDetail } from '../../components/page/User';
 import { Layout } from '../../components/ui/Layout'

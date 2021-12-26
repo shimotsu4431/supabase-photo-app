@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Image from 'next/image'
-import { Profile } from '../../../hooks/useUser'
-import { supabase } from '../../../utils/supabaseClient'
+import { Profile, useUser } from '../../../hooks/useUser'
 import { Main } from '../../ui/Main'
 import { PublicPhoto } from '../../../types/publicPhoto'
 import Link from 'next/link'
@@ -12,6 +11,8 @@ type props = {
 }
 
 export const UserDetail: React.FC<props> = ({ user, publicPhotos }) => {
+  const { user: sessionUser } = useUser()
+
   return (
     <Main>
       <h2 className="text-xl mb-4">{user.nickname} さんの画像一覧</h2>
@@ -23,15 +24,18 @@ export const UserDetail: React.FC<props> = ({ user, publicPhotos }) => {
       />
       <div className='py-2'>
         <ul>
-          {publicPhotos.map((p, idx) => {
+          {publicPhotos.map((p) => {
             return (
-              <li key={p.id} className='mb-6'>
+              <li key={p.id} className='mb-6 flex flex-col'>
                 <h3 className='text-xl'>{p.title}</h3>
                 <Link href={`/${user.fullname}/photo/${p.key}`}>
                   <a>
                     <Image src={p.src} width={300} height={200} alt={p.title}></Image>
                   </a>
                 </Link>
+                {sessionUser?.id === user.id && (
+                  <Link href={`/${user.fullname}/photo/${p.key}/edit`}><a>編集</a></Link>
+                )}
               </li>
             )
           })}
