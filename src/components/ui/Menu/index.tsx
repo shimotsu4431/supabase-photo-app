@@ -9,7 +9,7 @@ export const Menu: React.FC = () => {
   } = useUser()
 
   return (
-    <ul className='px-8 py-4'>
+    <ul className='px-8 py-4 border-b-2'>
       <li>
         <Link href="/"><a className='underline'>Home</a></Link>
       </li>
