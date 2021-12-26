@@ -46,11 +46,13 @@ export const UserDetail: React.FC<props> = ({ user, publicPhotos }) => {
             return (
               <li key={p.id} className='mb-6 flex flex-col'>
                 <h3 className='text-xl'>{p.title}</h3>
-                <Link href={`/${user.fullname}/photo/${p.id}`}>
-                  <a>
-                    <Image src={p.src} width={300} height={200} alt={p.title}></Image>
-                  </a>
-                </Link>
+                <div>
+                  <Link href={`/${user.fullname}/photo/${p.id}`}>
+                    <a className='inline-block'>
+                      <Image src={p.src} width={300} height={200} alt={p.title}></Image>
+                    </a>
+                  </Link>
+                </div>
                 {sessionUser?.id === user.id && (
                   <>
                     <div className='inline-block'>
