@@ -2,8 +2,9 @@ import type { GetServerSidePropsContext, NextPage } from 'next'
 import { UserPhoto } from '../../../../components/page/UserPhoto';
 import { Layout } from '../../../../components/ui/Layout';
 import { Profile } from '../../../../hooks/useUser';
+import { Comment } from '../../../../types/comment';
 import { PublicPhoto } from '../../../../types/publicPhoto';
-import { SUPABASE_BUCKET_PHOTOS_PATH, SUPABASE_BUCKET_USERS_PATH } from '../../../../utils/const';
+import { SUPABASE_BUCKET_COMMENTS_PATH, SUPABASE_BUCKET_PHOTOS_PATH, SUPABASE_BUCKET_USERS_PATH } from '../../../../utils/const';
 import { getPhotoKeyFromBucketPath } from '../../../../utils/getPhotoKeyFromBucketPath';
 import { removeBucketPath } from '../../../../utils/removeBucketPath';
 import { supabase } from '../../../../utils/supabaseClient';
@@ -17,9 +18,17 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
 
   const { data: photo } = await supabase
     .from(SUPABASE_BUCKET_PHOTOS_PATH)
-    .select("*")
+    .select(`*, comments!inner (*, users!inner (*))`)
+    // .select(`*`)
     .eq("id", params?.id)
     .single()
+
+  // const { data: comments } = await supabase
+  //   .from(SUPABASE_BUCKET_COMMENTS_PATH)
+  //   .select(`*, users!inner (*)`)
+  //   .eq("photoId", params?.id)
+
+  // console.log("comments", comments)
 
   async function setPublicPhotos() {
     if (photo) {
@@ -33,7 +42,8 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
         key: getPhotoKeyFromBucketPath(photo.url),
         title: photo.title,
         src: publicURL,
-        isPublished: photo.is_published
+        isPublished: photo.is_published,
+        comments: photo.comments
       }
     }
   }
@@ -51,10 +61,10 @@ type props = {
   photoData: PublicPhoto
 }
 
-const UserPhotoPage: NextPage<props> = ({ user, photoData }) => {
+const UserPhotoPage: NextPage<props> = ({ user, photoData}) => {
   return (
     <Layout>
-      <UserPhoto user={user} photoData={photoData} />
+      <UserPhoto user={user} photoData={photoData}/>
     </Layout>
   )
 }
