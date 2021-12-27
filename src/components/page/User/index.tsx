@@ -56,7 +56,7 @@ export const UserDetail: React.FC<props> = ({ user, publicPhotos }) => {
                 {sessionUser?.id === user.id && (
                   <>
                     <div className='inline-block'>
-                      公開ステータス: {p.isPublished ? "公開" : "未公開"}
+                      isPublished: {p.isPublished ? "true" : "false"}
                     </div>
                     <div className='inline-block'>
                       <Link href={`/${user.fullname}/photo/${p.id}/edit`}><a className='underline'>編集</a></Link>

@@ -20,8 +20,8 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
       <div>
         <Image className='w-4/12' src={photoData.src} alt="image" width={300} height={200} layout='fixed' objectFit={"contain"} />
       </div>
-      <div className='mt-4'>
-        <h3 className='text-xl mb-4'>コメント</h3>
+      <div className='mt-4 pt-4 border-t-2'>
+        <h3 className='text-xl mb-4 font-bold'>コメント一覧</h3>
         <ul className=''>
           {photoData.comments.map((c) => {
             return (
@@ -37,6 +37,12 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
                 )}
                 <p className='font-bold'>{c.users.nickname}</p>
                 <p className='text-base'>{c.body}</p>
+                {user.id === c.userId && (
+                  <div className='mt-4'>
+                    <button className='mr-2 underline'>編集</button>
+                    <button className='underline'>削除</button>
+                  </div>
+                )}
               </li>
             )
           })}
