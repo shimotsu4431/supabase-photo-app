@@ -2,7 +2,6 @@ import type { GetServerSidePropsContext, NextPage } from 'next'
 import { UserPhoto } from '../../../../components/page/UserPhoto';
 import { Layout } from '../../../../components/ui/Layout';
 import { Profile } from '../../../../hooks/useUser';
-import { Comment } from '../../../../types/comment';
 import { PublicPhoto } from '../../../../types/publicPhoto';
 import { SUPABASE_BUCKET_COMMENTS_PATH, SUPABASE_BUCKET_PHOTOS_PATH, SUPABASE_BUCKET_USERS_PATH } from '../../../../utils/const';
 import { getPhotoKeyFromBucketPath } from '../../../../utils/getPhotoKeyFromBucketPath';
@@ -14,21 +13,22 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
     .from(SUPABASE_BUCKET_USERS_PATH)
     .select("*")
     .eq("fullname", params?.userName)
-    .single();
+    .single()
 
   const { data: photo } = await supabase
     .from(SUPABASE_BUCKET_PHOTOS_PATH)
-    .select(`*, comments!inner (*, users!inner (*))`)
-    // .select(`*`)
+    .select(`*`)
     .eq("id", params?.id)
     .single()
 
-  // const { data: comments } = await supabase
-  //   .from(SUPABASE_BUCKET_COMMENTS_PATH)
-  //   .select(`*, users!inner (*)`)
-  //   .eq("photoId", params?.id)
+  console.log("photo", photo)
 
-  // console.log("comments", comments)
+  const { data: comments } = await supabase
+    .from(SUPABASE_BUCKET_COMMENTS_PATH)
+    .select(`*, users!inner (*)`)
+    .eq("photoId", params?.id)
+
+  console.log("comments", comments)
 
   async function setPublicPhotos() {
     if (photo) {
@@ -43,7 +43,7 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
         title: photo.title,
         src: publicURL,
         isPublished: photo.is_published,
-        comments: photo.comments
+        comments: comments
       }
     }
   }

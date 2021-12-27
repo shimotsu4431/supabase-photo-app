@@ -6,5 +6,5 @@ export type PublicPhoto = {
   title: string,
   src: string
   isPublished: boolean
-  comments: Comment[]
+  comments: Comment[] | null
 }

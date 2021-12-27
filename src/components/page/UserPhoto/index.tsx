@@ -13,6 +13,7 @@ type props = {
 
 export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
   console.log("photoData", photoData)
+  console.log("photoData.comments", photoData.comments)
 
   return (
     <Main>
@@ -23,7 +24,7 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
       <div className='mt-4 pt-4 border-t-2'>
         <h3 className='text-xl mb-4 font-bold'>コメント一覧</h3>
         <ul className=''>
-          {photoData.comments.map((c) => {
+          {photoData && photoData.comments && photoData.comments.length > 0 ? photoData.comments.map((c) => {
             return (
               <li key={c.id} className='border-2 p-4'>
                 {c.users.avatarurl && (
@@ -45,7 +46,11 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
                 )}
               </li>
             )
-          })}
+          }) : (
+            <div>
+              <p>コメントはありません</p>
+            </div>
+          )}
         </ul>
       </div>
     </Main>
