@@ -45,7 +45,7 @@ export const UserDetail: React.FC<props> = ({ user, publicPhotos }) => {
 
             return (
               <li key={p.id} className='mb-6 flex flex-col'>
-                <h3 className='text-xl'>{p.title}</h3>
+                <h3 className='text-2xl mb-2'>{p.title}</h3>
                 <div>
                   <Link href={`/${user.fullname}/photo/${p.id}`}>
                     <a className='inline-block'>
