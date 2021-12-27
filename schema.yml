@@ -22,3 +22,5 @@ comments:
   createdAt: Timestamp
   updatedAt: Timestamp
   body: string
+  isEdited: boolean
+  photoId: number #relation:{ photo: id}
