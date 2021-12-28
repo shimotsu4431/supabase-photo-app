@@ -58,13 +58,13 @@ export const UserPhotoEdit: React.FC<props> = ({ user, photoData }) => {
       <div>
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col'>
           <label htmlFor="title">画像タイトル</label>
-          <input id="title" className='py-1 px-2 border-2 w-4/12' {...register("title", { required: true })} />
+          <input id="title" className='py-1 px-2 border-2 w-80' {...register("title", { required: true })} />
           {errors.title && <span>This field is required</span>}
 
           <label htmlFor="isPublished" className='mt-4'>公開状態</label>
           <input type="checkbox" id="isPublished" className='py-1 px-2 border-2' {...register("isPublished")} />
 
-          <input className='mt-8 border-2 w-1/12 p-4' type="submit" />
+          <input className='mt-6 border-gray-300 border-2 rounded p-1 w-12' type="submit" />
         </form>
       </div>
     </Main>

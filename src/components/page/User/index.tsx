@@ -62,7 +62,7 @@ export const UserDetail: React.FC<props> = ({ user, publicPhotos }) => {
                       <Link href={`/${user.fullname}/photo/${p.id}/edit`}><a className='underline'>編集</a></Link>
                     </div>
                     <div>
-                      <button onClick={() => handleDelete(p.id)} className='mt-2 border-2 w-1/12 border-red-500'>削除</button>
+                      <button onClick={() => handleDelete(p.id)} className='border-gray-300 border-2 rounded p-1 w-12 mt-2 mr-2'>削除</button>
                     </div>
                   </>
                 )}

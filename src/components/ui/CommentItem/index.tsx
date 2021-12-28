@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 import Router from 'next/router'
 import { Comment } from '../../../types/comment'
 import { SUPABASE_BUCKET_COMMENTS_PATH } from '../../../utils/const'
+import nl2br from "react-nl2br"
 
 type props = {
   user: Profile
@@ -66,7 +67,7 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
   }
 
   return (
-    <li key={comment.id} className='border-2 p-4 mb-4'>
+    <li key={comment.id} className='border-2 p-4 mb-4 w-96'>
       {comment.users.avatarurl && (
         <div className=''>
           <Link href={`/${comment.users.fullname}`}>
@@ -77,7 +78,7 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
         </div>
       )}
       <p className='font-bold'>{comment.users.nickname}</p>
-      {!isEditing && <p className='text-base'>{comment.body}</p>}
+      {!isEditing && <p className='text-base'>{nl2br(comment.body)}</p>}
       {isEditing && (
         <div>
           <form onSubmit={handleUpdate} className='flex flex-col'>
@@ -86,7 +87,7 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
               value={editComment ?? ''}
               onChange={(e) => setComment(e.target.value)}
               placeholder=""
-              className='border-gray-300 border-2 rounded p-1 mr-2 w-96'
+              className='border-gray-300 border-2 rounded p-1 mr-2'
             />
             <div>
               <button type="submit" className='border-gray-300 border-2 rounded p-1 w-12 mt-2 mr-2'>更新</button>
