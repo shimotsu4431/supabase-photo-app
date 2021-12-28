@@ -9,6 +9,7 @@ import { toast } from 'react-toastify'
 import Router from 'next/router'
 import { CommentList } from '../../ui/CommentList'
 import { DateTime } from 'luxon'
+import Link from 'next/link'
 
 type props = {
   user: Profile
@@ -50,11 +51,21 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
     }
   }
 
-  console.log("photoData", photoData)
-
   return (
     <Main>
-      <p className='text-sm mb-2'>{DateTime.fromISO(photoData.updated_at ?? photoData.created_at).toFormat('yyyy.MM.dd')}</p>
+      <div className='flex items-center mb-4'>
+        {user.avatarurl && (
+          <div className='flex items-center mr-2'>
+            <Link href={`/${user.fullname}`}>
+              <a className=''>
+                <Image className='rounded-full' src={user.avatarurl} width={30} height={30} alt={user.nickname ?? ""}></Image>
+              </a>
+            </Link>
+          </div>
+        )}
+        <p>{user.nickname}</p>
+      </div>
+      <p className='text-sm mb-2'>投稿日: {DateTime.fromISO(photoData.updated_at ?? photoData.created_at).toFormat('yyyy.MM.dd')}</p>
       <h2 className="text-2xl mb-2">{photoData.title}</h2>
       <div>
         <Image src={photoData.src} alt="image" width={300} height={200} />
