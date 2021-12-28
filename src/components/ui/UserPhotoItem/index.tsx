@@ -39,18 +39,20 @@ export const UserPhotoItem: React.FC<props> = ({ user, publicPhoto }) => {
         </Link>
       </div>
       <div>
-        コメント数: {publicPhoto.comments?.length ?? 0}件
+        コメント数: <Link href={`/${user.fullname}/photo/${publicPhoto.id}#comments`}><a className='px-1 underline'>{publicPhoto.comments?.length ?? 0}</a></Link>件
       </div>
       {sessionUser?.id === user.id && (
-        <div>
+        <div className='flex flex-col pt-2'>
           <div className='inline-block'>
             isPublished: {publicPhoto.isPublished ? "true" : "false"}
           </div>
-          <div className='inline-block'>
-            <Link href={`/${user.fullname}/photo/${publicPhoto.id}/edit`}><a className='underline'>編集</a></Link>
-          </div>
-          <div>
-            <button onClick={() => handleDelete(publicPhoto.id)} className='border-gray-300 border-2 rounded p-1 w-12 mt-2 mr-2'>削除</button>
+          <div className='flex'>
+            <div>
+              <button onClick={() => Router.push(`/${user.fullname}/photo/${publicPhoto.id}/edit`)} className='border-gray-300 border-2 rounded p-1 w-12 mr-2'>編集</button>
+            </div>
+            <div>
+              <button onClick={() => handleDelete(publicPhoto.id)} className='border-gray-300 border-2 rounded p-1 w-12'>削除</button>
+            </div>
           </div>
         </div>
       )}

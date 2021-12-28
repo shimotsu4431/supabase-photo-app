@@ -58,7 +58,7 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
         <Image className='w-4/12' src={photoData.src} alt="image" width={300} height={200} layout='fixed' objectFit={"contain"} />
       </div>
       <div className='mt-4 pt-4 border-t-2'>
-        <h3 className='text-xl mb-4 font-bold'>コメント一覧</h3>
+        <h3 id="comments" className='text-xl mb-4 font-bold'>コメント一覧</h3>
         <CommentList user={user} photoData={photoData} />
         <div className='mt-6'>
           <h2 className='text-base font-bold mb-2'>コメントを投稿する</h2>
