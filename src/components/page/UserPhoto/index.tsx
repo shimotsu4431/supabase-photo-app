@@ -53,7 +53,7 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
     <Main>
       <h2 className="text-xl mb-2">{photoData.title}</h2>
       <div>
-        <Image className='w-4/12' src={photoData.src} alt="image" width={300} height={200} layout='fixed' objectFit={"contain"} />
+        <Image src={photoData.src} alt="image" width={300} height={200} />
       </div>
       <div className='mt-4 pt-4 border-t-2'>
         <h3 id="comments" className='text-xl mb-4 font-bold'>コメント一覧</h3>

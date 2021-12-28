@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { DateTime } from 'luxon'
 import Image from 'next/image'
 
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -38,6 +39,7 @@ export const UserPhotoEdit: React.FC<props> = ({ user, photoData }) => {
         .update({
           title: title,
           is_published: isPublished,
+          updated_at: DateTime.now()
         })
         .match({ id: photoData.id })
 

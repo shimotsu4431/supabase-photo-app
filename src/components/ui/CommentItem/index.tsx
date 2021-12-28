@@ -36,7 +36,7 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
 
     try {
       await supabase.from(SUPABASE_BUCKET_COMMENTS_PATH)
-      .update({ body: editComment })
+      .update({ body: editComment, is_edited: true, updated_at: DateTime.now() })
       .match({ id: comment.id })
       .single();
 
@@ -85,7 +85,9 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
           </a>
         </Link>
       </div>
-      <div className='text-xs mt-1 mb-2'>投稿日: {DateTime.fromISO(comment.updated_at).toFormat('yyyy.MM.dd')}</div>
+      <div className='text-xs mt-1 mb-2'>投稿日: {DateTime.fromISO(comment.updated_at ?? comment.created_at).toFormat('yyyy.MM.dd t')}
+        {comment.is_edited && (<span> | 編集済み</span>)}
+      </div>
       {!isEditing && <p className='text-base'>{nl2br(comment.body)}</p>}
       {isEditing && (
         <div>
