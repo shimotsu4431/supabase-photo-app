@@ -19,7 +19,6 @@ type props = {
 }
 
 export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
-  // console.log("photoData", photoData)
   const [comment, setComment] = useState<string>('')
   const [like, setLike] = useState<Like | null>(null)
   const [likeCount, setLikeCount] = useState<number>(0)
@@ -29,17 +28,15 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
   } = useUser()
 
   useEffect(() => {
-    if (!photoData || !profile || !photoData.likes) return
+    setLikeCount(photoData.likes && photoData.likes.length ? photoData.likes.length : 0)
 
-    setLikeCount(photoData.likes.length)
-
-    if (photoData.likes.some((like) => like.userId === profile.id)) {
-      setLike(photoData.likes.filter((like) => like.userId === profile.id)[0])
+    if (photoData && photoData.likes && photoData.likes.some((like) => like.userId === profile?.id)) {
+      setLike(photoData.likes.filter((like) => like.userId === profile?.id)[0])
 
       return
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+  },[profile])
 
   const handleSend = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

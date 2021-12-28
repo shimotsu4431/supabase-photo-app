@@ -21,8 +21,6 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
     .eq("id", params?.id)
     .single()
 
-  console.log("photo", photo)
-
   const { data: comments } = await supabase
     .from(SUPABASE_BUCKET_COMMENTS_PATH)
     .select(`*, users(*)`)
