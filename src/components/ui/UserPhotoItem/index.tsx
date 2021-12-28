@@ -36,7 +36,7 @@ export const UserPhotoItem: React.FC<props> = ({ user, publicPhoto }) => {
       <div>
         <Link href={`/${user.fullname}/photo/${publicPhoto.id}`}>
           <a className='inline-block'>
-            <Image src={publicPhoto.src} width={300} height={200} alt={publicPhoto.title}></Image>
+            <Image src={publicPhoto.src} width={200} height={200 * 2 / 3} alt={publicPhoto.title} loading='lazy'></Image>
           </a>
         </Link>
       </div>
