@@ -44,7 +44,9 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
         title: photo.title,
         src: publicURL,
         isPublished: photo.is_published,
-        comments: comments
+        comments: comments,
+        created_at: photo.created_at,
+        updated_at: photo.updated_at
       }
     }
   }
