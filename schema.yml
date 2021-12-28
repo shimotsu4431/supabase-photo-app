@@ -23,4 +23,11 @@ comments:
   updatedAt: Timestamp
   body: string
   isEdited: boolean
-  photoId: number #relation:{ photo: id}
+  photoId: number #relation: { photo: id }
+
+# 画像へのいいね
+likes:
+  id: string
+  userId: string #relation: { user: id }
+  photoId: number #relation: { photo: id }
+  createdAt: Timestamp
