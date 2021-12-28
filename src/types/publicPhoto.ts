@@ -1,4 +1,5 @@
 import { Comment } from "./comment";
+import { Like } from "./likes";
 
 export type PublicPhoto = {
   id: number,
@@ -6,7 +7,8 @@ export type PublicPhoto = {
   title: string,
   src: string
   isPublished: boolean
-  comments?: Comment[] | null
   updated_at: string | null
   created_at: string
+  comments?: Comment[] | null
+  likes?: Like[]
 }

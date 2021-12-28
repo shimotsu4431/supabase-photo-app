@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 
 import { Profile, useUser } from '../../../hooks/useUser'
 import { Main } from '../../ui/Main'
@@ -10,6 +11,7 @@ import Router from 'next/router'
 import { CommentList } from '../../ui/CommentList'
 import { DateTime } from 'luxon'
 import Link from 'next/link'
+import { Like } from '../../../types/likes'
 
 type props = {
   user: Profile
@@ -17,11 +19,27 @@ type props = {
 }
 
 export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
+  // console.log("photoData", photoData)
   const [comment, setComment] = useState<string>('')
+  const [like, setLike] = useState<Like | null>(null)
+  const [likeCount, setLikeCount] = useState<number>(0)
 
   const {
     profile
   } = useUser()
+
+  useEffect(() => {
+    if (!photoData || !profile || !photoData.likes) return
+
+    setLikeCount(photoData.likes.length)
+
+    if (photoData.likes.some((like) => like.userId === profile.id)) {
+      setLike(photoData.likes.filter((like) => like.userId === profile.id)[0])
+
+      return
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
 
   const handleSend = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,6 +69,32 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
     }
   }
 
+  const handleLike = useCallback(async () => {
+    if (!profile) {
+      toast.info('ログインしてください。')
+
+      return
+    }
+
+    try {
+      if (like) {
+        await supabase.from('likes').delete().eq('id', like.id)
+        setLike(null)
+        setLikeCount(likeCount - 1)
+      } else {
+        const { data } = await supabase.from('likes').insert([{
+          userId: profile.id,
+          photoId: photoData.id,
+        }])
+        setLike(data && data[0])
+        setLikeCount(likeCount + 1)
+      }
+    } catch(error) {
+      console.log(error)
+      toast.error("エラーが発生しました。")
+    }
+  },[like, likeCount, photoData.id, profile])
+
   return (
     <Main>
       <div className='flex items-center mb-4'>
@@ -69,6 +113,12 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
       <h2 className="text-2xl mb-2">{photoData.title}</h2>
       <div>
         <Image src={photoData.src} alt="image" width={300} height={200} />
+      </div>
+      <div className='w-96 flex py-2'>
+        <button className='mr-2' onClick={() => handleLike()}>
+          {like ? <AiFillHeart size={24} /> : <AiOutlineHeart size={24} />}
+        </button>
+        <span>{likeCount}</span>
       </div>
       <div className='mt-4 pt-4 border-t-2'>
         <h3 id="comments" className='text-xl mb-4 font-bold'>コメント一覧</h3>
