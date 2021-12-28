@@ -20,8 +20,6 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
   const {
     profile
   } = useUser()
-  console.log("photoData", photoData)
-  console.log("photoData.comments", photoData.comments)
 
   const handleSend = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -69,9 +67,9 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
                 value={comment ?? ''}
                 onChange={(e) => setComment(e.target.value)}
                 placeholder=""
-                className='border-gray-300 border-2 rounded p-1 mr-2 w-96'
+                className='border-gray-300 border-2 rounded p-1 mr-2 mb-2 w-96'
               />
-              <button type="submit" className='border-gray-300 border-2 rounded p-1 w-12 mt-2'>投稿</button>
+              <button type="submit" className='border-gray-300 border-2 rounded p-1 w-12'>投稿</button>
             </form>
           </div>
         </div>

@@ -43,7 +43,7 @@ export const UserPhotoItem: React.FC<props> = ({ user, publicPhoto }) => {
       </div>
       {sessionUser?.id === user.id && (
         <div className='flex flex-col pt-2'>
-          <div className='inline-block'>
+          <div className='inline-block mb-1'>
             isPublished: {publicPhoto.isPublished ? "true" : "false"}
           </div>
           <div className='flex'>

@@ -68,16 +68,18 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
 
   return (
     <li key={comment.id} className='border-2 p-4 mb-4 w-96'>
-      {comment.users.avatarurl && (
-        <div className=''>
-          <Link href={`/${comment.users.fullname}`}>
-            <a>
-              <Image className='rounded-full' src={comment.users.avatarurl} width={30} height={30} alt={comment.users.nickname ?? ""}></Image>
-            </a>
-          </Link>
-        </div>
-      )}
-      <p className='font-bold'>{comment.users.nickname}</p>
+      <div className='flex items-center'>
+        {comment.users.avatarurl && (
+          <div>
+            <Link href={`/${comment.users.fullname}`}>
+              <a>
+                <Image className='rounded-full' src={comment.users.avatarurl} width={30} height={30} alt={comment.users.nickname ?? ""}></Image>
+              </a>
+            </Link>
+          </div>
+        )}
+        <p className='font-bold ml-2'>{comment.users.nickname}</p>
+      </div>
       {!isEditing && <p className='text-base'>{nl2br(comment.body)}</p>}
       {isEditing && (
         <div>
@@ -97,7 +99,7 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
         </div>
       )}
       {profile?.id === comment.userId && !isEditing &&(
-        <div className='mt-4'>
+        <div className='flex justify-end'>
           <button onClick={() => {
               setIsEditing(!isEditing)
               setComment(comment.body)

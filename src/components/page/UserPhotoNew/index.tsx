@@ -94,7 +94,7 @@ export const UserPhotoNew: React.FC<props> = ({ user }) => {
             </div>
           )}
 
-          <input className='mt-8 border-2 w-1/12 p-4' type="submit" />
+          <input className='border-gray-300 border-2 rounded p-1 w-16 mt-4' type="submit" />
         </form>
       </div>
     </Main>
