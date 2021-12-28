@@ -16,6 +16,7 @@ type props = {
 
 export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
   const [comment, setComment] = useState<string>('')
+
   const {
     profile
   } = useUser()
@@ -50,6 +51,21 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
     }
   }
 
+  const handleDelete = async (commentId: number) => {
+    if (!window.confirm("コメント削除しますか？")) return
+
+    try {
+      await supabase.from('comments').delete().eq('id', commentId)
+      toast.success('コメントを削除しました')
+      Router.push({
+        pathname: `/${user.fullname}/photo/${photoData.id}`,
+      }, undefined, { scroll: false })
+    } catch (error) {
+      console.log(error)
+      toast.error('削除に失敗しました。')
+    }
+  }
+
   return (
     <Main>
       <h2 className="text-xl mb-2">{photoData.title}</h2>
@@ -76,7 +92,7 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
                 {profile?.id === c.userId && (
                   <div className='mt-4'>
                     <button className='mr-2 underline'>編集</button>
-                    <button className='underline'>削除</button>
+                    <button onClick={() => handleDelete(c.id)} className='underline'>削除</button>
                   </div>
                 )}
               </li>
