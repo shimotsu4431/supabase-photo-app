@@ -25,7 +25,7 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
 
   const { data: comments } = await supabase
     .from(SUPABASE_BUCKET_COMMENTS_PATH)
-    .select(`*, users!inner (*)`)
+    .select(`*, users(*)`)
     .eq("photoId", params?.id)
     .order("created_at", { ascending: false })
 

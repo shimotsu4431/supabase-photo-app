@@ -14,6 +14,7 @@ type props = {
 }
 
 export const UserDetail: React.FC<props> = ({ user, publicPhotos }) => {
+  console.log("publicPhotos", publicPhotos)
   const { user: sessionUser } = useUser()
 
   const handleDelete = useCallback(async (id: number) => {
@@ -53,8 +54,11 @@ export const UserDetail: React.FC<props> = ({ user, publicPhotos }) => {
                     </a>
                   </Link>
                 </div>
+                <div>
+                  コメント数: {p.comments?.length ?? 0}件
+                </div>
                 {sessionUser?.id === user.id && (
-                  <>
+                  <div>
                     <div className='inline-block'>
                       isPublished: {p.isPublished ? "true" : "false"}
                     </div>
@@ -64,7 +68,7 @@ export const UserDetail: React.FC<props> = ({ user, publicPhotos }) => {
                     <div>
                       <button onClick={() => handleDelete(p.id)} className='border-gray-300 border-2 rounded p-1 w-12 mt-2 mr-2'>削除</button>
                     </div>
-                  </>
+                  </div>
                 )}
               </li>
             )
