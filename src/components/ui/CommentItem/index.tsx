@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { DateTime } from 'luxon'
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { PublicPhoto } from '../../../types/publicPhoto'
@@ -78,8 +79,13 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
             </Link>
           </div>
         )}
-        <p className='font-bold ml-2'>{comment.users.nickname}</p>
+        <Link href={`/${comment.users.fullname}`}>
+          <a className='underline'>
+            <p className='font-bold ml-2'>{comment.users.nickname}</p>
+          </a>
+        </Link>
       </div>
+      <div className='text-xs mt-1 mb-2'>投稿日: {DateTime.fromISO(comment.updated_at).toFormat('yyyy.MM.dd')}</div>
       {!isEditing && <p className='text-base'>{nl2br(comment.body)}</p>}
       {isEditing && (
         <div>

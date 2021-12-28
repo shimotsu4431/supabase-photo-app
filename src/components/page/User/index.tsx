@@ -13,13 +13,15 @@ type props = {
 export const UserDetail: React.FC<props> = ({ user, publicPhotos }) => {
   return (
     <Main>
-      <h2 className="text-xl mb-4">{user.nickname} さんの画像一覧</h2>
-      <Image
-          src={user.avatarurl ?? ""}
-          width={48}
-          height={48}
-          alt={user.fullname ?? ""}
-      />
+      <div className='mb-6'>
+        <h2 className="text-xl mb-4">{user.nickname} さんの画像一覧</h2>
+        <Image
+            src={user.avatarurl ?? ""}
+            width={48}
+            height={48}
+            alt={user.fullname ?? ""}
+        />
+      </div>
       <div className='py-2'>
         <UserPhotoList user={user} publicPhotos={publicPhotos} />
       </div>

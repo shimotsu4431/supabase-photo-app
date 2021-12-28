@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import { DateTime } from 'luxon'
 import Image from 'next/image'
 import { Profile, useUser } from '../../../hooks/useUser'
 import { PublicPhoto } from '../../../types/publicPhoto'
@@ -29,7 +30,8 @@ export const UserPhotoItem: React.FC<props> = ({ user, publicPhoto }) => {
   },[user.fullname])
 
   return (
-    <li key={publicPhoto.id} className='mb-6 flex flex-col'>
+    <li key={publicPhoto.id} className='mb-10 flex flex-col'>
+      {publicPhoto.updated_at && <p className='text-sm'>{DateTime.fromISO(publicPhoto.updated_at).toFormat('yyyy.MM.dd')}</p>}
       <h3 className='text-2xl mb-2'>{publicPhoto.title}</h3>
       <div>
         <Link href={`/${user.fullname}/photo/${publicPhoto.id}`}>
