@@ -35,22 +35,31 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
       return
     }
 
-    try {
-      await supabase.from(SUPABASE_BUCKET_COMMENTS_PATH)
-      .update({ body: editComment, is_edited: true, updated_at: DateTime.now() })
-      .match({ id: comment.id })
-      .single();
+    const value = {
+      commentId: comment.id,
+      editComment: editComment,
+    }
 
-      toast.success("コメントを更新しました！")
+    await fetch("/api/comment", {
+      method: "PUT",
+      headers: new Headers({ "Content-Type": "application/json" }),
+      credentials: "same-origin",
+      body: JSON.stringify({ value }),
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+
+      toast.success('コメントを更新しました')
       Router.push({
-        pathname: `/user/${user?.id}/photo/${photoData.id}`,
+        pathname: `/user/${photoData?.user?.id}/photo/${photoData.id}`,
       }, undefined, { scroll: false })
-    } catch (err) {
-      toast.error("エラーが発生しました。")
-    } finally {
+    }).catch((error) => {
+      toast.error("エラーが発生しました。。")
+    }).finally(() => {
       setComment('')
       setIsEditing(false)
-    }
+    })
   }
 
   const handleDelete = async (commentId: number) => {
