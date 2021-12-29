@@ -21,7 +21,7 @@ type Inputs = {
 };
 
 export const UserPhotoNew: React.FC<props> = ({ user }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<Inputs>();
   const [newImage, setImage] = useState<File | null>()
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
@@ -31,6 +31,17 @@ export const UserPhotoNew: React.FC<props> = ({ user }) => {
     }
 
     const file = event.target.files[0];
+    const size = file.size
+
+    if (size > 1000000) {
+      toast.error('ファイルサイズは1MB以内にしてください。')
+      reset()
+      setPreviewUrl(null)
+      setImage(null)
+
+      return
+    }
+
     setImage(file)
     setPreviewUrl(URL.createObjectURL(file))
   }
@@ -75,11 +86,11 @@ export const UserPhotoNew: React.FC<props> = ({ user }) => {
       <div>
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col'>
           <label htmlFor="title">画像タイトル</label>
-          <input id="title" className='py-1 px-2 border-2 w-4/12' {...register("title", { required: true })} />
+          <input id="title" className='py-1 px-2 border-2 w-80' {...register("title", { required: true })} />
           {errors.title && <span>This field is required</span>}
 
           <label htmlFor="isPublished" className='mt-4'>公開状態</label>
-          <input type="checkbox" id="isPublished" className='py-1 px-2 border-2' {...register("isPublished")} />
+          <input type="checkbox" id="isPublished" className='py-1 px-2 border-2 w-4' {...register("isPublished")} />
 
           <label htmlFor="image" className='mt-4'>画像を選択</label>
           <input
