@@ -3,7 +3,7 @@ import type { GetServerSidePropsContext, NextPage } from 'next'
 import { DashboardLikes } from '../../../components/page/DashboardLikes';
 import { Layout } from '../../../components/ui/Layout';
 import { PublicPhoto } from '../../../types/publicPhoto';
-import { SUPABASE_BUCKET_PHOTOS_PATH } from '../../../utils/const';
+import { SUPABASE_BUCKET_LIKES_PATH, SUPABASE_BUCKET_PHOTOS_PATH } from '../../../utils/const';
 import { getPhotoKeyFromBucketPath } from '../../../utils/getPhotoKeyFromBucketPath';
 import { removeBucketPath } from '../../../utils/removeBucketPath';
 import { supabase } from '../../../utils/supabaseClient';
@@ -12,12 +12,11 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
 
   const { data: likes } = await supabase
-    .from("likes")
+    .from(SUPABASE_BUCKET_LIKES_PATH)
     .select(`*, photos(*)`)
     .eq("userId", user?.id)
     .order("created_at", { ascending: false })
 
-  console.log("likes",likes)
   const publicPhotos: PublicPhoto[] = []
 
   async function setPublicPhotos() {

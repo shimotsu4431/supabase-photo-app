@@ -12,6 +12,7 @@ import { CommentList } from '../../ui/CommentList'
 import { DateTime } from 'luxon'
 import Link from 'next/link'
 import { Like } from '../../../types/likes'
+import { SUPABASE_BUCKET_COMMENTS_PATH, SUPABASE_BUCKET_LIKES_PATH } from '../../../utils/const'
 
 type props = {
   user: Profile
@@ -49,7 +50,7 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
 
     try {
       // DBにレコード作成
-      await supabase.from('comments').insert([{
+      await supabase.from(SUPABASE_BUCKET_COMMENTS_PATH).insert([{
         userId: profile.id,
         photoId: photoData.id,
         body: comment,
@@ -75,11 +76,11 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
 
     try {
       if (like) {
-        await supabase.from('likes').delete().eq('id', like.id)
+        await supabase.from(SUPABASE_BUCKET_LIKES_PATH).delete().eq('id', like.id)
         setLike(null)
         setLikeCount(likeCount - 1)
       } else {
-        const { data } = await supabase.from('likes').insert([{
+        const { data } = await supabase.from(SUPABASE_BUCKET_LIKES_PATH).insert([{
           userId: profile.id,
           photoId: photoData.id,
         }])

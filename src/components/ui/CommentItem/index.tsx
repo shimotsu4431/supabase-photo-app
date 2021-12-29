@@ -57,7 +57,7 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
     if (!window.confirm("コメント削除しますか？")) return
 
     try {
-      await supabase.from('comments').delete().eq('id', commentId)
+      await supabase.from(SUPABASE_BUCKET_COMMENTS_PATH).delete().eq('id', commentId)
       toast.success('コメントを削除しました')
       Router.push({
         pathname: `/user/${user.id}/photo/${photoData.id}`,

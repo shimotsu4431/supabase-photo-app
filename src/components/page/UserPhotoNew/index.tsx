@@ -8,6 +8,7 @@ import { supabase } from '../../../utils/supabaseClient'
 import { Main } from '../../ui/Main'
 import Router from 'next/router';
 import { toast } from 'react-toastify';
+import { SUPABASE_BUCKET_PHOTOS_PATH } from '../../../utils/const';
 
 type props = {
   user: Profile
@@ -46,14 +47,14 @@ export const UserPhotoNew: React.FC<props> = ({ user }) => {
       // storage に画像をアップロード
       const { data: inputData } = await supabase
         .storage
-        .from('photos')
+        .from(SUPABASE_BUCKET_PHOTOS_PATH)
         .upload(`${user.id}/${newImageKey}`, newImage, {
           cacheControl: '3600',
           upsert: false
         })
 
       // DBにレコード作成
-      await supabase.from('photos').insert([{
+      await supabase.from(SUPABASE_BUCKET_PHOTOS_PATH).insert([{
         userId: user.id,
         title: title,
         is_published: isPublished,

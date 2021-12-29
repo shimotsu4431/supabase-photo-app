@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { supabase } from '../../../utils/supabaseClient'
 import { toast } from 'react-toastify'
 import Router from 'next/router'
+import { SUPABASE_BUCKET_PHOTOS_PATH } from '../../../utils/const'
 
 type props = {
   user: Profile
@@ -20,7 +21,7 @@ export const UserPhotoItem: React.FC<props> = ({ user, publicPhoto }) => {
     if (!window.confirm("削除しますか？")) return
 
     try {
-      await supabase.from('photos').delete().eq('id', id)
+      await supabase.from(SUPABASE_BUCKET_PHOTOS_PATH).delete().eq('id', id)
       toast.success('削除しました')
       Router.push(`/user/${user.id}`)
     } catch (error) {

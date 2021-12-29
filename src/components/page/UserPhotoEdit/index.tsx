@@ -9,6 +9,7 @@ import { Main } from '../../ui/Main'
 import Router from 'next/router';
 import { toast } from 'react-toastify';
 import { PublicPhoto } from '../../../types/publicPhoto';
+import { SUPABASE_BUCKET_PHOTOS_PATH } from '../../../utils/const'
 
 type props = {
   user: Profile
@@ -35,7 +36,7 @@ export const UserPhotoEdit: React.FC<props> = ({ user, photoData }) => {
     try {
       // レコード更新
       await supabase
-        .from('photos')
+        .from(SUPABASE_BUCKET_PHOTOS_PATH)
         .update({
           title: title,
           is_published: isPublished,
