@@ -19,6 +19,9 @@ export const Menu: React.FC = () => {
             <Link href={`/dashboard`}><a className='underline'>Dashboard</a></Link>
           </li>
           <li>
+            <Link href={`/dashboard/likes`}><a className='underline'>Dashboard- Likes</a></Link>
+          </li>
+          <li>
             <Link href={`/${profile?.fullname}`}><a className='underline'>@{profile?.fullname}</a></Link>
           </li>
           <li>
