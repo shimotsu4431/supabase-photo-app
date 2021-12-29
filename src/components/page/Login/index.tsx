@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Router from 'next/router';
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -28,8 +27,8 @@ export const Login: React.FC = () => {
         email: email,
         password: password
       })
+      console.log("user", user)
       toast.success('ログインしました！')
-      Router.push('/')
     } catch(error) {
       console.log(error)
       toast.error("エラーが発生しました。")

@@ -12,8 +12,7 @@ const LoginPage: NextPage = () => {
 
   useEffect(() => {
     if (session) Router.push('/')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+  },[session])
 
   return (
     <Layout>
