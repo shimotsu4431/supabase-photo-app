@@ -22,10 +22,10 @@ export const Menu: React.FC = () => {
             <Link href={`/dashboard/likes`}><a className='underline'>Dashboard- Likes</a></Link>
           </li>
           <li>
-            <Link href={`/${profile?.id}`}><a className='underline'>@{profile?.id}</a></Link>
+            <Link href={`/user/${profile?.id}`}><a className='underline'>@{profile?.id}</a></Link>
           </li>
           <li>
-            <Link href={`/${profile?.id}/photo/new`}><a className='underline'>photo - new</a></Link>
+            <Link href={`/user/${profile?.id}/photo/new`}><a className='underline'>photo - new</a></Link>
           </li>
           <li>
             <Link href="/account"><a className='underline'>Account</a></Link>

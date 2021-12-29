@@ -1,12 +1,12 @@
 import type { GetServerSidePropsContext, NextPage } from 'next'
-import { UserPhotoEdit } from '../../../../components/page/UserPhotoEdit';
-import { Layout } from '../../../../components/ui/Layout';
-import { Profile } from '../../../../hooks/useUser';
-import { PublicPhoto } from '../../../../types/publicPhoto';
-import { SUPABASE_BUCKET_PHOTOS_PATH, SUPABASE_BUCKET_USERS_PATH } from '../../../../utils/const';
-import { getPhotoKeyFromBucketPath } from '../../../../utils/getPhotoKeyFromBucketPath';
-import { removeBucketPath } from '../../../../utils/removeBucketPath';
-import { supabase } from '../../../../utils/supabaseClient';
+import { UserPhotoEdit } from '../../../../../components/page/UserPhotoEdit';
+import { Layout } from '../../../../../components/ui/Layout';
+import { Profile } from '../../../../../hooks/useUser';
+import { PublicPhoto } from '../../../../../types/publicPhoto';
+import { SUPABASE_BUCKET_PHOTOS_PATH, SUPABASE_BUCKET_USERS_PATH } from '../../../../../utils/const';
+import { getPhotoKeyFromBucketPath } from '../../../../../utils/getPhotoKeyFromBucketPath';
+import { removeBucketPath } from '../../../../../utils/removeBucketPath';
+import { supabase } from '../../../../../utils/supabaseClient';
 
 export async function getServerSideProps({ req, params }: GetServerSidePropsContext) {
   const { token } = await supabase.auth.api.getUserByCookie(req);

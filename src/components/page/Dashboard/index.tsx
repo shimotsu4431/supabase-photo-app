@@ -41,7 +41,7 @@ export const Dashboard: React.FC<props> = ({ user, publicPhotos }) => {
                     <h3 className='text-xl mb-1'>{photo.title}</h3>
                     <p className='text-xs mb-1'>投稿日: {DateTime.fromISO(photo.updated_at ?? photo.created_at).toFormat('yyyy.MM.dd')}</p>
                     <p className='text-xs'>isPublished: {photo.isPublished ? "true" : "false"}</p>
-                    <button onClick={() => Router.push(`/${profile?.id}/photo/${photo.id}/edit`)} className='border-gray-300 border-2 rounded w-12 mt-2 text-sm'>編集</button>
+                    <button onClick={() => Router.push(`/user/${profile?.id}/photo/${photo.id}/edit`)} className='border-gray-300 border-2 rounded w-12 mt-2 text-sm'>編集</button>
                   </div>
                 </div>
               </li>

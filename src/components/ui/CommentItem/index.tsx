@@ -42,7 +42,7 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
 
       toast.success("コメントを更新しました！")
       Router.push({
-        pathname: `/${user.id}/photo/${photoData.id}`,
+        pathname: `/user/${user.id}/photo/${photoData.id}`,
       }, undefined, { scroll: false })
     } catch (err) {
       toast.error("エラーが発生しました。")
@@ -59,7 +59,7 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
       await supabase.from('comments').delete().eq('id', commentId)
       toast.success('コメントを削除しました')
       Router.push({
-        pathname: `/${user.id}/photo/${photoData.id}`,
+        pathname: `/user/${user.id}/photo/${photoData.id}`,
       }, undefined, { scroll: false })
     } catch (error) {
       console.log(error)
