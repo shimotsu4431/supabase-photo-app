@@ -23,7 +23,7 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
   const { data: user } = await supabase
     .from(SUPABASE_BUCKET_USERS_PATH)
     .select("*")
-    .eq("fullname", params?.userName)
+    .eq("id", params?.userName)
     .single();
 
   const { data: photo } = await supabase

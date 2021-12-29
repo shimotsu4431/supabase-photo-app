@@ -57,7 +57,7 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
 
       toast.success("コメントを投稿しました！")
       Router.push({
-        pathname: `/${user.fullname}/photo/${photoData.id}`,
+        pathname: `/${user.id}/photo/${photoData.id}`,
       }, undefined, { scroll: false })
     } catch (err) {
       toast.error("エラーが発生しました。")
@@ -97,7 +97,7 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
       <div className='flex items-center mb-4'>
         {user.avatarurl && (
           <div className='flex items-center mr-2'>
-            <Link href={`/${user.fullname}`}>
+            <Link href={`/${user.id}`}>
               <a className=''>
                 <Image className='rounded-full' src={user.avatarurl} width={30} height={30} alt={user.nickname ?? ""}></Image>
               </a>

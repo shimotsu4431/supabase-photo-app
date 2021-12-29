@@ -44,7 +44,7 @@ export const UserPhotoEdit: React.FC<props> = ({ user, photoData }) => {
         .match({ id: photoData.id })
 
       toast.success("画像を更新しました！")
-      Router.push(`/${user.fullname}`)
+      Router.push(`/${user.id}`)
     } catch(error) {
       console.log(error)
       toast.error("エラーが発生しました。")

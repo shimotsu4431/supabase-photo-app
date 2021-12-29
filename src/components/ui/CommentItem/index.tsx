@@ -42,7 +42,7 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
 
       toast.success("コメントを更新しました！")
       Router.push({
-        pathname: `/${user.fullname}/photo/${photoData.id}`,
+        pathname: `/${user.id}/photo/${photoData.id}`,
       }, undefined, { scroll: false })
     } catch (err) {
       toast.error("エラーが発生しました。")
@@ -59,7 +59,7 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
       await supabase.from('comments').delete().eq('id', commentId)
       toast.success('コメントを削除しました')
       Router.push({
-        pathname: `/${user.fullname}/photo/${photoData.id}`,
+        pathname: `/${user.id}/photo/${photoData.id}`,
       }, undefined, { scroll: false })
     } catch (error) {
       console.log(error)
@@ -71,17 +71,17 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
     <li key={comment.id} className='border-2 p-4 mb-4 w-96'>
       <div className='flex items-center'>
         {comment.users.avatarurl && (
-          <div>
-            <Link href={`/${comment.users.fullname}`}>
+          <div className='mr-2'>
+            <Link href={`/${comment.users.id}`}>
               <a>
                 <Image className='rounded-full' src={comment.users.avatarurl} width={30} height={30} alt={comment.users.nickname ?? ""}></Image>
               </a>
             </Link>
           </div>
         )}
-        <Link href={`/${comment.users.fullname}`}>
+        <Link href={`/${comment.users.id}`}>
           <a className='underline'>
-            <p className='font-bold ml-2'>{comment.users.nickname}</p>
+            <p className='font-bold'>{comment.users.nickname}</p>
           </a>
         </Link>
       </div>

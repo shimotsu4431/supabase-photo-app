@@ -14,13 +14,15 @@ export const UserDetail: React.FC<props> = ({ user, publicPhotos }) => {
   return (
     <Main>
       <div className='mb-6'>
-        <h2 className="text-xl mb-4">{user.nickname} さんの画像一覧</h2>
-        <Image
+        <h2 className="text-xl mb-4">{user.nickname ?? '名無し'}さんの画像一覧</h2>
+        {user.avatarurl && (
+          <Image
             src={user.avatarurl ?? ""}
             width={48}
             height={48}
-            alt={user.fullname ?? ""}
-        />
+            alt={user.id ?? ""}
+          />
+        )}
       </div>
       <div className='py-2'>
         <UserPhotoList user={user} publicPhotos={publicPhotos} />

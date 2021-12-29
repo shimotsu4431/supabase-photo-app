@@ -61,7 +61,7 @@ export const UserPhotoNew: React.FC<props> = ({ user }) => {
       }])
 
       toast.success("画像を投稿しました！")
-      Router.push(`/${user.fullname}`)
+      Router.push(`/${user.id}`)
     } catch(error) {
       console.log(error)
       toast.error("エラーが発生しました。")
