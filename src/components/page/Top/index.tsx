@@ -24,15 +24,15 @@ export const Top: React.FC<props> = ({ publicPhotos }) => {
         <ul className='flex flex-wrap'>
           {publicPhotos.map((photo) => {
             return (
-              <li key={photo.id} className='w-1/2'>
+              <li key={photo.id} className='w-1/2 mb-6'>
                 <div className='flex'>
                   <div>
                     <Link href={`/user/${photo.user?.id}/photo/${photo.id}`}>
                       <a>
                       <Image
                         src={photo.src ?? ""}
-                        width={120}
-                        height={120}
+                        width={300}
+                        height={200}
                         alt={photo.title ?? ""}
                         objectFit={"cover"}
                       />
@@ -47,9 +47,12 @@ export const Top: React.FC<props> = ({ publicPhotos }) => {
                     </Link>
                     <h3 className='text-2xl mb-1'>{photo.title}</h3>
                     <p className='text-xs mb-1'>投稿日: {DateTime.fromISO(photo.updated_at ?? photo.created_at).toFormat('yyyy.MM.dd')}</p>
-                    <p className='text-xs mb-1 mt-2'>コメント: {photo.comments?.length ?? 0}件</p>
                     <div className='flex items-center'>
-                      {photo.likes && photo.likes?.length > 0 ? (<AiFillHeart size={18} />) : (<AiOutlineHeart size={18} />)}<span className='ml-1'>{photo.likes?.length}</span>
+                      <div className='flex items-center'>
+                        {photo.likes && photo.likes?.length > 0 ? (<AiFillHeart size={18} />) : (<AiOutlineHeart size={18} />)}<span className='ml-1 text-xs'>{photo.likes?.length}</span>
+                      </div>
+                      <span className='mx-2'>/</span>
+                      <p className='text-xs'>コメント: {photo.comments?.length ?? 0}件</p>
                     </div>
                   </div>
                 </div>

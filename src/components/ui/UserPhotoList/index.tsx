@@ -11,7 +11,7 @@ type props = {
 export const UserPhotoList: React.FC<props> = ({ user, publicPhotos }) => {
   const { user: sessionUser } = useUser()
   return (
-    <ul>
+    <ul className='flex flex-wrap'>
       {publicPhotos.map((p) => {
         if (sessionUser?.id !== user.id && !p.isPublished) return null
 
