@@ -4,6 +4,7 @@ import { Main } from '../../ui/Main'
 import { PublicPhoto } from '../../../types/publicPhoto'
 import { User } from '@supabase/supabase-js'
 import { DateTime } from 'luxon'
+import Link from 'next/link'
 
 type props = {
   user: User
@@ -23,15 +24,24 @@ export const DashboardLikes: React.FC<props> = ({ publicPhotos }) => {
               <li key={photo.id} className='mb-6 w-1/2'>
                 <div className='flex'>
                   <div>
-                    <Image
-                      src={photo.src ?? ""}
-                      width={300}
-                      height={200}
-                      alt={photo.title ?? ""}
-                      objectFit={"cover"}
-                    />
+                    <Link href={`/user/${photo.user?.id}/photo/${photo.id}`}>
+                      <a>
+                        <Image
+                        src={photo.src ?? ""}
+                        width={300}
+                        height={200}
+                        alt={photo.title ?? ""}
+                        objectFit={"cover"}
+                        />
+                      </a>
+                    </Link>
                   </div>
                   <div className='ml-4'>
+                    <Link href={`/user/${photo.user?.id}`}>
+                      <a className='underline'>
+                        <p>{photo.user?.nickname ?? '名無しさん'}</p>
+                      </a>
+                    </Link>
                     <h3 className='text-xl mb-1'>{photo.title}</h3>
                     <p className='text-xs mb-1'>投稿日: {DateTime.fromISO(photo.updated_at ?? photo.created_at).toFormat('yyyy.MM.dd')}</p>
                   </div>
