@@ -16,6 +16,9 @@ export const Menu: React.FC = () => {
       {session && (
         <>
           <li>
+            <Link href={`/dashboard`}><a className='underline'>Dashboard</a></Link>
+          </li>
+          <li>
             <Link href={`/${profile?.fullname}`}><a className='underline'>@{profile?.fullname}</a></Link>
           </li>
           <li>
