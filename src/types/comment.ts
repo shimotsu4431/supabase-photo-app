@@ -8,5 +8,5 @@ export type Comment = {
   body: string,
   is_edited: boolean,
   photoId: number
-  users: Profile
+  user: Profile
 }

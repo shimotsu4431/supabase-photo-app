@@ -21,6 +21,7 @@ export const UserDetail: React.FC<props> = ({ user, publicPhotos }) => {
             width={48}
             height={48}
             alt={user.id ?? ""}
+            className='rounded-full'
           />
         )}
       </div>

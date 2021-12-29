@@ -13,7 +13,7 @@ import nl2br from "react-nl2br"
 import { IoPersonCircle } from "react-icons/io5"
 
 type props = {
-  user: Profile
+  user: Profile | undefined
   comment: Comment
   photoData: PublicPhoto
 }
@@ -43,7 +43,7 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
 
       toast.success("コメントを更新しました！")
       Router.push({
-        pathname: `/user/${user.id}/photo/${photoData.id}`,
+        pathname: `/user/${user?.id}/photo/${photoData.id}`,
       }, undefined, { scroll: false })
     } catch (err) {
       toast.error("エラーが発生しました。")
@@ -60,7 +60,7 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
       await supabase.from(SUPABASE_BUCKET_COMMENTS_PATH).delete().eq('id', commentId)
       toast.success('コメントを削除しました')
       Router.push({
-        pathname: `/user/${user.id}/photo/${photoData.id}`,
+        pathname: `/user/${user?.id}/photo/${photoData.id}`,
       }, undefined, { scroll: false })
     } catch (error) {
       console.log(error)
@@ -68,23 +68,25 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
     }
   }
 
+  if(!user) return null
+
   return (
     <li key={comment.id} className='border-2 p-4 mb-4 w-96'>
       <div className='flex items-center'>
         <div className='mr-2'>
-          <Link href={`/user/${comment.users.id}`}>
+          <Link href={`/user/${comment.userId}`}>
             <a>
-              {comment.users.avatarurl ? (
-                <Image className='rounded-full' src={comment.users.avatarurl} width={30} height={30} alt={comment.users.nickname ?? ""}></Image>
+              {comment.user?.avatarurl ? (
+                <Image className='rounded-full' src={comment.user.avatarurl} width={30} height={30} alt={comment.user.nickname ?? ""}></Image>
               ) : (
                 <IoPersonCircle size={36} />
               )}
             </a>
           </Link>
         </div>
-        <Link href={`/user/${comment.users.id}`}>
+        <Link href={`/user/${comment.user.id}`}>
           <a className='underline'>
-            <p className='font-bold'>{comment.users.nickname}</p>
+            <p className='font-bold'>{comment.user.nickname}</p>
           </a>
         </Link>
       </div>

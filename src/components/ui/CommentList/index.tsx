@@ -4,7 +4,7 @@ import { Profile, useUser } from '../../../hooks/useUser'
 import { CommentItem } from '../CommentItem'
 
 type props = {
-  user: Profile
+  user: Profile | undefined
   photoData: PublicPhoto
 }
 

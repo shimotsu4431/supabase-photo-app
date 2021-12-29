@@ -15,11 +15,11 @@ import { Like } from '../../../types/likes'
 import { SUPABASE_BUCKET_COMMENTS_PATH, SUPABASE_BUCKET_LIKES_PATH } from '../../../utils/const'
 
 type props = {
-  user: Profile
   photoData: PublicPhoto
 }
 
-export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
+export const UserPhoto: React.FC<props> = ({ photoData }) => {
+  console.log("photoData", photoData)
   const [comment, setComment] = useState<string>('')
   const [like, setLike] = useState<Like | null>(null)
   const [likeCount, setLikeCount] = useState<number>(0)
@@ -58,7 +58,7 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
 
       toast.success("コメントを投稿しました！")
       Router.push({
-        pathname: `/user/${user.id}/photo/${photoData.id}`,
+        pathname: `/user/${photoData?.user?.id}/photo/${photoData.id}`,
       }, undefined, { scroll: false })
     } catch (err) {
       toast.error("エラーが発生しました。")
@@ -96,16 +96,16 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
   return (
     <Main>
       <div className='flex items-center mb-4'>
-        {user.avatarurl && (
+        {photoData?.user?.avatarurl && (
           <div className='flex items-center mr-2'>
-            <Link href={`/user/${user.id}`}>
+            <Link href={`/user/${photoData?.user?.id}`}>
               <a className=''>
-                <Image className='rounded-full' src={user.avatarurl} width={30} height={30} alt={user.nickname ?? ""}></Image>
+                <Image className='rounded-full' src={photoData?.user?.avatarurl} width={30} height={30} alt={photoData?.user?.nickname ?? ""}></Image>
               </a>
             </Link>
           </div>
         )}
-        <p>{user.nickname}</p>
+        <p>{photoData?.user?.nickname}</p>
       </div>
       <p className='text-sm mb-2'>投稿日: {DateTime.fromISO(photoData.updated_at ?? photoData.created_at).toFormat('yyyy.MM.dd')}</p>
       <h2 className="text-2xl mb-2">{photoData.title}</h2>
@@ -120,7 +120,7 @@ export const UserPhoto: React.FC<props> = ({ user, photoData }) => {
       </div>
       <div className='mt-4 pt-4 border-t-2'>
         <h3 id="comments" className='text-xl mb-4 font-bold'>コメント一覧</h3>
-        <CommentList user={user} photoData={photoData} />
+        <CommentList user={photoData?.user} photoData={photoData} />
         <div className='mt-6'>
           <h2 className='text-base font-bold mb-2'>コメントを投稿する</h2>
           <div>

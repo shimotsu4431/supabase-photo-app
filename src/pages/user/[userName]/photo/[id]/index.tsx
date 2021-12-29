@@ -1,31 +1,18 @@
 import type { GetServerSidePropsContext, NextPage } from 'next'
 import { UserPhoto } from '../../../../../components/page/UserPhoto';
 import { Layout } from '../../../../../components/ui/Layout';
-import { Profile } from '../../../../../hooks/useUser';
 import { PublicPhoto } from '../../../../../types/publicPhoto';
-import { SUPABASE_BUCKET_COMMENTS_PATH, SUPABASE_BUCKET_PHOTOS_PATH, SUPABASE_BUCKET_USERS_PATH } from '../../../../../utils/const';
+import { SUPABASE_BUCKET_PHOTOS_PATH } from '../../../../../utils/const';
 import { getPhotoKeyFromBucketPath } from '../../../../../utils/getPhotoKeyFromBucketPath';
 import { removeBucketPath } from '../../../../../utils/removeBucketPath';
 import { supabase } from '../../../../../utils/supabaseClient';
 
 export async function getServerSideProps({ req, params }: GetServerSidePropsContext) {
-  const { data: user } = await supabase
-    .from(SUPABASE_BUCKET_USERS_PATH)
-    .select("*")
-    .eq("id", params?.userName)
-    .single()
-
   const { data: photo } = await supabase
     .from(SUPABASE_BUCKET_PHOTOS_PATH)
-    .select(`*, likes(*)`)
+    .select(`*, user: userId!inner(*), likes(*), comments(*, user: userId!inner(*))`)
     .eq("id", params?.id)
     .single()
-
-  const { data: comments } = await supabase
-    .from(SUPABASE_BUCKET_COMMENTS_PATH)
-    .select(`*, users(*)`)
-    .eq("photoId", params?.id)
-    .order("created_at", { ascending: false })
 
   async function setPublicPhotos() {
     if (photo) {
@@ -40,31 +27,31 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
         title: photo.title,
         src: publicURL,
         isPublished: photo.is_published,
-        comments: comments,
+        comments: photo.comments,
         likes: photo.likes,
         created_at: photo.created_at,
-        updated_at: photo.updated_at
+        updated_at: photo.updated_at,
+        user: photo.user,
       }
     }
   }
 
   const photoData: PublicPhoto | undefined = await setPublicPhotos()
 
-  if (!user || !photoData || !photoData.isPublished) {
+  if (!photoData || !photoData.isPublished) {
     return { notFound: true }
   }
-  return { props: { user, photoData } };
+  return { props: { photoData } };
 }
 
 type props = {
-  user: Profile
   photoData: PublicPhoto
 }
 
-const UserPhotoPage: NextPage<props> = ({ user, photoData}) => {
+const UserPhotoPage: NextPage<props> = ({ photoData}) => {
   return (
     <Layout>
-      <UserPhoto user={user} photoData={photoData}/>
+      <UserPhoto photoData={photoData}/>
     </Layout>
   )
 }
