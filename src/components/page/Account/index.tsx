@@ -7,6 +7,7 @@ export const Account: React.FC = () => {
   const {
     session,
     profile,
+    signOut,
   } = useUser()
 
   return (
@@ -20,9 +21,12 @@ export const Account: React.FC = () => {
           <p>nickName: {profile?.nickname ?? ""}</p>
           <p className='mt-2'>
             <Link href="/account/edit">
-              <a className='underline'>編集</a>
+              <a className='border-gray-300 border-2 rounded p-1 mb-4'>編集</a>
             </Link>
           </p>
+          <div className='mt-4'>
+            <button onClick={signOut} className='border-gray-300 border-2 rounded p-1 mb-4'>ログアウト</button>
+          </div>
         </>
       )}
     </Main>

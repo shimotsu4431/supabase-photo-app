@@ -50,12 +50,14 @@ const useUser = () => {
   const signInWithGoogle = async () => {
     await supabase.auth.signIn({ provider: 'google' })
     toast.success('ログインしました！')
-    Router.push('/')
+    // Router.push('/')
   }
 
   const signOut = () => {
     supabase.auth.signOut();
+    toast.success('ログアウトしました！')
     setProfile(null)
+    Router.push('/')
   }
 
   const updateNickname = async (nickname: string) => {
