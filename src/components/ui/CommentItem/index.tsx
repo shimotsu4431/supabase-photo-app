@@ -10,6 +10,7 @@ import Router from 'next/router'
 import { Comment } from '../../../types/comment'
 import { SUPABASE_BUCKET_COMMENTS_PATH } from '../../../utils/const'
 import nl2br from "react-nl2br"
+import { IoPersonCircle } from "react-icons/io5"
 
 type props = {
   user: Profile
@@ -70,16 +71,18 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
   return (
     <li key={comment.id} className='border-2 p-4 mb-4 w-96'>
       <div className='flex items-center'>
-        {comment.users.avatarurl && (
-          <div className='mr-2'>
-            <Link href={`/${comment.users.id}`}>
-              <a>
+        <div className='mr-2'>
+          <Link href={`/user/${comment.users.id}`}>
+            <a>
+              {comment.users.avatarurl ? (
                 <Image className='rounded-full' src={comment.users.avatarurl} width={30} height={30} alt={comment.users.nickname ?? ""}></Image>
-              </a>
-            </Link>
-          </div>
-        )}
-        <Link href={`/${comment.users.id}`}>
+              ) : (
+                <IoPersonCircle size={36} />
+              )}
+            </a>
+          </Link>
+        </div>
+        <Link href={`/user/${comment.users.id}`}>
           <a className='underline'>
             <p className='font-bold'>{comment.users.nickname}</p>
           </a>
