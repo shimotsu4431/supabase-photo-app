@@ -17,7 +17,6 @@ export const Account: React.FC = () => {
         <>
           <p>userId: {session.user?.id}</p>
           <p>email: {session.user?.email}</p>
-          <p>name: {session.user?.user_metadata.name}</p>
           <p>nickName: {profile?.nickname ?? ""}</p>
           <p className='mt-2'>
             <Link href="/account/edit">

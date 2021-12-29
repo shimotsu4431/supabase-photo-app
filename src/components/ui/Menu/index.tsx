@@ -13,13 +13,13 @@ export const Menu: React.FC = () => {
       {session && (
         <>
           <li>
+            <Link href={`/user/${profile?.id}`}><a className='underline'>mypage</a></Link>
+          </li>
+          <li>
             <Link href={`/dashboard`}><a className='underline'>Dashboard</a></Link>
           </li>
           <li>
             <Link href={`/dashboard/likes`}><a className='underline'>Dashboard- Likes</a></Link>
-          </li>
-          <li>
-            <Link href={`/user/${profile?.id}`}><a className='underline'>@{profile?.id}</a></Link>
           </li>
           <li>
             <Link href={`/user/${profile?.id}/photo/new`}><a className='underline'>photo - new</a></Link>

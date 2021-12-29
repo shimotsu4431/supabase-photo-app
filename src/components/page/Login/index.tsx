@@ -27,7 +27,12 @@ export const Login: React.FC = () => {
         email: email,
         password: password
       })
-      toast.success('ログインしました！')
+
+      if (error) {
+        toast.error("ログインエラー。正しいメールアドレス、パスワードを入力してください。")
+      } else {
+        toast.success('ログインしました！')
+      }
     } catch(error) {
       console.log(error)
       toast.error("エラーが発生しました。")
