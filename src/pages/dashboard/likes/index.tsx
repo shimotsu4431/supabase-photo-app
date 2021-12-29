@@ -13,7 +13,7 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
 
   const { data: likes } = await supabase
     .from(SUPABASE_BUCKET_LIKES_PATH)
-    .select(`*, photos(*)`)
+    .select(`*, photo: photos(*), user: userId!inner(*)`)
     .eq("userId", user?.id)
     .order("created_at", { ascending: false })
 
@@ -22,19 +22,20 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
   async function setPublicPhotos() {
     if (likes) {
       for (const like of likes) {
-        const { publicURL, error } = supabase.storage.from(SUPABASE_BUCKET_PHOTOS_PATH).getPublicUrl(removeBucketPath(like.photos.url, SUPABASE_BUCKET_PHOTOS_PATH))
+        const { publicURL, error } = supabase.storage.from(SUPABASE_BUCKET_PHOTOS_PATH).getPublicUrl(removeBucketPath(like.photo.url, SUPABASE_BUCKET_PHOTOS_PATH))
         if (error || !publicURL) {
           throw error
         }
 
         publicPhotos.push({
-          id: like.photos.id,
-          key: getPhotoKeyFromBucketPath(like.photos.url),
-          title: like.photos.title,
+          id: like.photo.id,
+          key: getPhotoKeyFromBucketPath(like.photo.url),
+          title: like.photo.title,
           src: publicURL,
-          isPublished: like.photos.is_published,
-          updated_at: like.photos.updated_at,
-          created_at: like.photos.created_at
+          isPublished: like.photo.is_published,
+          updated_at: like.photo.updated_at,
+          created_at: like.photo.created_at,
+          user: like.user
         })
       }
     }
