@@ -1,12 +1,19 @@
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useUser } from '../../../hooks/useUser'
 
 export const Menu: React.FC = () => {
+  const [mounted, setMounted] = useState(false)
   const {
     session,
     profile,
   } = useUser()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if(!mounted) return null
 
   return (
     <ul className='px-8 py-4 border-b-2'>

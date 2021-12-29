@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 
-import { Profile, useUser } from '../../../hooks/useUser'
+import { useUser } from '../../../hooks/useUser'
 import { Main } from '../../ui/Main'
 import { PublicPhoto } from '../../../types/publicPhoto'
 import { supabase } from '../../../utils/supabaseClient'
@@ -12,14 +12,13 @@ import { CommentList } from '../../ui/CommentList'
 import { DateTime } from 'luxon'
 import Link from 'next/link'
 import { Like } from '../../../types/likes'
-import { SUPABASE_BUCKET_COMMENTS_PATH, SUPABASE_BUCKET_LIKES_PATH } from '../../../utils/const'
+import { SUPABASE_BUCKET_LIKES_PATH } from '../../../utils/const'
 
 type props = {
   photoData: PublicPhoto
 }
 
 export const UserPhoto: React.FC<props> = ({ photoData }) => {
-  console.log("photoData", photoData)
   const [comment, setComment] = useState<string>('')
   const [like, setLike] = useState<Like | null>(null)
   const [likeCount, setLikeCount] = useState<number>(0)
@@ -48,23 +47,31 @@ export const UserPhoto: React.FC<props> = ({ photoData }) => {
       return
     }
 
-    try {
-      // DBにレコード作成
-      await supabase.from(SUPABASE_BUCKET_COMMENTS_PATH).insert([{
-        userId: profile.id,
-        photoId: photoData.id,
-        body: comment,
-      }])
+    const value = {
+      userId: profile.id,
+      photoId: photoData.id,
+      body: comment,
+    }
+
+    await fetch("/api/comment", {
+      method: "POST",
+      headers: new Headers({ "Content-Type": "application/json" }),
+      credentials: "same-origin",
+      body: JSON.stringify({ value }),
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
 
       toast.success("コメントを投稿しました！")
       Router.push({
         pathname: `/user/${photoData?.user?.id}/photo/${photoData.id}`,
       }, undefined, { scroll: false })
-    } catch (err) {
+    }).catch((error) => {
       toast.error("エラーが発生しました。")
-    } finally {
+    }).finally(() => {
       setComment('')
-    }
+    })
   }
 
   const handleLike = useCallback(async () => {

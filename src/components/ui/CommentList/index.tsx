@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { PublicPhoto } from '../../../types/publicPhoto'
 import { Profile, useUser } from '../../../hooks/useUser'
 import { CommentItem } from '../CommentItem'
@@ -9,9 +9,24 @@ type props = {
 }
 
 export const CommentList: React.FC<props> = ({ user, photoData }) => {
+  const sortedData = useMemo(() => {
+    if(!photoData || !photoData.comments) return null
+
+    return photoData.comments.sort(
+      (a, b) => {
+        if (a.updated_at < b.updated_at) return 1
+        if (a.updated_at > b.updated_at) return -1
+
+        return 0
+      },
+    )
+  }, [photoData])
+
+  console.log("sortedData", sortedData)
+
   return (
     <ul className=''>
-      {photoData && photoData.comments && photoData.comments.length > 0 ? photoData.comments.map((c) => {
+      {sortedData ? sortedData.map((c) => {
         return (
           <CommentItem key={c.id} user={user} comment={c} photoData={photoData} />
         )
