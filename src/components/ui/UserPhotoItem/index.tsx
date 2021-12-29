@@ -29,7 +29,7 @@ export const UserPhotoItem: React.FC<props> = ({ user, publicPhoto }) => {
         </Link>
       </div>
       <div>
-        コメント数: <Link href={`/user/${user.id}/photo/${publicPhoto.id}#comments`}><a className='px-1 underline'>{publicPhoto.comments?.length ?? 0}</a></Link>件
+        コメント: <Link href={`/user/${user.id}/photo/${publicPhoto.id}#comments`}><a className='px-1 underline'>{publicPhoto.comments?.length ?? 0}</a></Link>件
       </div>
       {sessionUser?.id === user.id && (
         <div className='flex flex-col pt-2'>

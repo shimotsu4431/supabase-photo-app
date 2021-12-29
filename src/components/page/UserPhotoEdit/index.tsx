@@ -62,8 +62,6 @@ export const UserPhotoEdit: React.FC<props> = ({ user, photoData }) => {
       .select(`*`)
         .eq("photoId", id)
 
-      console.log("likes", likes)
-
       // likes を全削除
       // FIXME: いい感じにバックエンド側で削除できないか？
       if (likes) {
@@ -77,8 +75,6 @@ export const UserPhotoEdit: React.FC<props> = ({ user, photoData }) => {
       .from(SUPABASE_BUCKET_COMMENTS_PATH)
       .select(`*`)
       .eq("photoId", id)
-
-      console.log("comments", comments)
 
       // likes を全削除
       // FIXME: いい感じにバックエンド側で削除できないか？

@@ -10,9 +10,6 @@ export const Menu: React.FC = () => {
 
   return (
     <ul className='px-8 py-4 border-b-2'>
-      <li>
-        <Link href="/"><a className='underline'>Home</a></Link>
-      </li>
       {session && (
         <>
           <li>
@@ -29,9 +26,6 @@ export const Menu: React.FC = () => {
           </li>
           <li>
             <Link href="/account"><a className='underline'>Account</a></Link>
-          </li>
-          <li>
-            <Link href="/account/edit"><a className='underline'>Account Edit</a></Link>
           </li>
         </>
       )}

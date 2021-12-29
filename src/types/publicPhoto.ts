@@ -1,3 +1,4 @@
+import { Profile } from "../hooks/useUser";
 import { Comment } from "./comment";
 import { Like } from "./likes";
 
@@ -11,4 +12,5 @@ export type PublicPhoto = {
   created_at: string
   comments?: Comment[] | null
   likes?: Like[]
+  user?: Profile
 }

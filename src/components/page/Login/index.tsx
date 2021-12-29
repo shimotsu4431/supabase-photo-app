@@ -27,7 +27,6 @@ export const Login: React.FC = () => {
         email: email,
         password: password
       })
-      console.log("user", user)
       toast.success('ログインしました！')
     } catch(error) {
       console.log(error)
