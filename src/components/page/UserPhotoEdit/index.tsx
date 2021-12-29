@@ -12,7 +12,6 @@ import { PublicPhoto } from '../../../types/publicPhoto';
 import { SUPABASE_BUCKET_COMMENTS_PATH, SUPABASE_BUCKET_LIKES_PATH, SUPABASE_BUCKET_PHOTOS_PATH } from '../../../utils/const'
 
 type props = {
-  user: Profile
   photoData: PublicPhoto
 }
 
@@ -21,7 +20,7 @@ type Inputs = {
   isPublished: boolean
 };
 
-export const UserPhotoEdit: React.FC<props> = ({ user, photoData }) => {
+export const UserPhotoEdit: React.FC<props> = ({ photoData }) => {
   const { register, handleSubmit, formState: { errors }, setValue } = useForm<Inputs>();
 
   useEffect(() => {
@@ -45,7 +44,7 @@ export const UserPhotoEdit: React.FC<props> = ({ user, photoData }) => {
         .match({ id: photoData.id })
 
       toast.success("画像を更新しました！")
-      Router.push(`/user/${user.id}`)
+      Router.push(`/user/${photoData?.user?.id}`)
     } catch(error) {
       console.log(error)
       toast.error("エラーが発生しました。")
@@ -87,7 +86,7 @@ export const UserPhotoEdit: React.FC<props> = ({ user, photoData }) => {
       // レコード削除
       await supabase.from(SUPABASE_BUCKET_PHOTOS_PATH).delete().eq('id', id)
       toast.success('削除しました')
-      Router.push(`/user/${user.id}`)
+      Router.push(`/user/${photoData?.user?.id}`)
     } catch (error) {
       console.log(error)
       toast.error('削除に失敗しました。')
@@ -109,7 +108,7 @@ export const UserPhotoEdit: React.FC<props> = ({ user, photoData }) => {
           <label htmlFor="isPublished" className='mt-4'>公開状態</label>
           <input type="checkbox" id="isPublished" className='py-1 px-2 border-2' {...register("isPublished")} />
 
-          <input className='mt-6 border-gray-300 border-2 rounded p-1 w-12' type="submit" />
+          <input className='mt-6 border-gray-300 border-2 rounded p-1 w-12' type="submit" value={'更新'} />
         </form>
       </div>
       <div className='mt-4'>

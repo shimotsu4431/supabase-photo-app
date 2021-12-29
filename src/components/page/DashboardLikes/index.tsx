@@ -25,8 +25,8 @@ export const DashboardLikes: React.FC<props> = ({ publicPhotos }) => {
                   <div>
                     <Image
                       src={photo.src ?? ""}
-                      width={120}
-                      height={120}
+                      width={300}
+                      height={200}
                       alt={photo.title ?? ""}
                       objectFit={"cover"}
                     />

@@ -1,7 +1,6 @@
 import type { GetServerSidePropsContext, NextPage } from 'next'
 import { UserPhotoEdit } from '../../../../../components/page/UserPhotoEdit';
 import { Layout } from '../../../../../components/ui/Layout';
-import { Profile } from '../../../../../hooks/useUser';
 import { PublicPhoto } from '../../../../../types/publicPhoto';
 import { SUPABASE_BUCKET_PHOTOS_PATH, SUPABASE_BUCKET_USERS_PATH } from '../../../../../utils/const';
 import { getPhotoKeyFromBucketPath } from '../../../../../utils/getPhotoKeyFromBucketPath';
@@ -20,15 +19,9 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
     };
   }
 
-  const { data: user } = await supabase
-    .from(SUPABASE_BUCKET_USERS_PATH)
-    .select("*")
-    .eq("id", params?.userName)
-    .single();
-
   const { data: photo } = await supabase
     .from(SUPABASE_BUCKET_PHOTOS_PATH)
-    .select("*")
+    .select("*, user: userId!inner(*)")
     .eq("id", params?.id)
     .single()
 
@@ -46,27 +39,27 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
         src: publicURL,
         isPublished: photo.is_published,
         updated_at: photo.updated_at,
-        created_at: photo.created_at
+        created_at: photo.created_at,
+        user: photo.user
       }
     }
   }
 
   const photoData: PublicPhoto | undefined = await setPublicPhotos()
-  if (!user || !photoData) {
+  if (!photoData) {
     return { notFound: true }
   }
-  return { props: { user, photoData } };
+  return { props: { photoData } };
 }
 
 type props = {
-  user: Profile
   photoData: PublicPhoto
 }
 
-const UserPhotoEditPage: NextPage<props> = ({ user, photoData }) => {
+const UserPhotoEditPage: NextPage<props> = ({ photoData }) => {
   return (
     <Layout>
-      <UserPhotoEdit user={user} photoData={photoData} />
+      <UserPhotoEdit photoData={photoData} />
     </Layout>
   )
 }
