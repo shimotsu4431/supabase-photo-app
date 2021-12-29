@@ -22,8 +22,6 @@ export const CommentList: React.FC<props> = ({ user, photoData }) => {
     )
   }, [photoData])
 
-  console.log("sortedData", sortedData)
-
   return (
     <ul className=''>
       {sortedData ? sortedData.map((c) => {

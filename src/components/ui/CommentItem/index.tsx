@@ -56,16 +56,25 @@ export const CommentItem: React.FC<props> = ({ user, comment, photoData }) => {
   const handleDelete = async (commentId: number) => {
     if (!window.confirm("コメント削除しますか？")) return
 
-    try {
-      await supabase.from(SUPABASE_BUCKET_COMMENTS_PATH).delete().eq('id', commentId)
+    await fetch("/api/comment", {
+      method: "DELETE",
+      headers: new Headers({ "Content-Type": "application/json" }),
+      credentials: "same-origin",
+      body: JSON.stringify({ commentId }),
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+
       toast.success('コメントを削除しました')
       Router.push({
-        pathname: `/user/${user?.id}/photo/${photoData.id}`,
+        pathname: `/user/${photoData?.user?.id}/photo/${photoData.id}`,
       }, undefined, { scroll: false })
-    } catch (error) {
-      console.log(error)
-      toast.error('削除に失敗しました。')
-    }
+    }).catch((error) => {
+      toast.error("エラーが発生しました。")
+    }).finally(() => {
+      setComment('')
+    })
   }
 
   if(!user) return null
