@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import Router from 'next/router';
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -22,12 +24,12 @@ export const Login: React.FC = () => {
     const { email, password } = data
 
     try {
-      const { user, error } = await supabase.auth.signUp({
+      const { user, error } = await supabase.auth.signIn({
         email: email,
         password: password
       })
-      console.log("user", user)
-      toast.success('アカウントを作成しました！')
+      toast.success('ログインしました！')
+      Router.push('/')
     } catch(error) {
       console.log(error)
       toast.error("エラーが発生しました。")
@@ -37,6 +39,11 @@ export const Login: React.FC = () => {
   return (
     <Main>
       <h2 className="text-xl mb-4">Login</h2>
+      <div className='mb-8'>
+        <Link href={`/signin`}>
+          <a className='underline'>アカウントを持っていない方はこちら</a>
+        </Link>
+      </div>
       <div>
           {session ? (
             <button onClick={signOut} className='border-gray-300'>ログアウト</button>

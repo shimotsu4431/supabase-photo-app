@@ -47,8 +47,10 @@ const useUser = () => {
     setupProfile();
   }, [session]);
 
-  const signInWithGoogle = () => {
-    supabase.auth.signIn({ provider: 'google' })
+  const signInWithGoogle = async () => {
+    await supabase.auth.signIn({ provider: 'google' })
+    toast.success('ログインしました！')
+    Router.push('/')
   }
 
   const signOut = () => {

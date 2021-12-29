@@ -19,7 +19,7 @@ export const Top: React.FC = () => {
             <button onClick={signOut} className='border-gray-300 border-2 rounded p-1 mt-4'>ログアウト</button>
           </>
         ) : (
-          <p><Link href={'/login'}><a>ログイン</a></Link></p>
+          <p><Link href={'/login'}><a className='underline'>ログイン</a></Link></p>
       )}
     </Main>
   )
