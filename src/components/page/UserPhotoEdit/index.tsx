@@ -102,7 +102,7 @@ export const UserPhotoEdit: React.FC<props> = ({ user, photoData }) => {
     <Main>
       <h2 className="text-xl mb-4">画像編集</h2>
       <div>
-        <Image className='w-4/12' src={photoData.src} alt="image" width={300} height={200} layout='fixed' objectFit={"contain"} />
+        <Image className='w-4/12' src={photoData.src} alt="image" width={300} height={200} layout='fixed' objectFit={"cover"} />
       </div>
       <div>
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col'>

@@ -35,6 +35,7 @@ export const Dashboard: React.FC<props> = ({ user, publicPhotos }) => {
                       width={120}
                       height={120}
                       alt={photo.title ?? ""}
+                      objectFit={"cover"}
                     />
                   </div>
                   <div className='ml-4'>

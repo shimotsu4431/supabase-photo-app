@@ -91,7 +91,7 @@ export const UserPhotoNew: React.FC<props> = ({ user }) => {
           />
           {previewUrl && (
             <div className='mt-4'>
-              <Image className='w-4/12' src={previewUrl} alt="image" width={300} height={200} layout='fixed' objectFit={"contain"} />
+              <Image className='w-4/12' src={previewUrl} alt="image" width={300} height={200} layout='fixed' objectFit={"cover"} />
             </div>
           )}
 
