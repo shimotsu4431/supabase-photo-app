@@ -17,19 +17,6 @@ type props = {
 export const UserPhotoItem: React.FC<props> = ({ user, publicPhoto }) => {
   const { user: sessionUser } = useUser()
 
-  const handleDelete = useCallback(async (id: number) => {
-    if (!window.confirm("削除しますか？")) return
-
-    try {
-      await supabase.from(SUPABASE_BUCKET_PHOTOS_PATH).delete().eq('id', id)
-      toast.success('削除しました')
-      Router.push(`/user/${user.id}`)
-    } catch (error) {
-      console.log(error)
-      toast.error('削除に失敗しました。')
-    }
-  },[user.id])
-
   return (
     <li key={publicPhoto.id} className='mb-10 flex flex-col'>
       {publicPhoto.updated_at && <p className='text-sm'>{DateTime.fromISO(publicPhoto.updated_at).toFormat('yyyy.MM.dd')}</p>}
@@ -52,9 +39,6 @@ export const UserPhotoItem: React.FC<props> = ({ user, publicPhoto }) => {
           <div className='flex'>
             <div>
               <button onClick={() => Router.push(`/user/${user.id}/photo/${publicPhoto.id}/edit`)} className='border-gray-300 border-2 rounded p-1 w-12 mr-2'>編集</button>
-            </div>
-            <div>
-              <button onClick={() => handleDelete(publicPhoto.id)} className='border-gray-300 border-2 rounded p-1 w-12'>削除</button>
             </div>
           </div>
         </div>

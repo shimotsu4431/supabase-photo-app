@@ -44,7 +44,9 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
         key: getPhotoKeyFromBucketPath(photo.url),
         title: photo.title,
         src: publicURL,
-        isPublished: photo.is_published
+        isPublished: photo.is_published,
+        updated_at: photo.updated_at,
+        created_at: photo.created_at
       }
     }
   }

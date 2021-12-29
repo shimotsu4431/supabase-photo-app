@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { DateTime } from 'luxon'
 import Image from 'next/image'
 
@@ -9,7 +9,7 @@ import { Main } from '../../ui/Main'
 import Router from 'next/router';
 import { toast } from 'react-toastify';
 import { PublicPhoto } from '../../../types/publicPhoto';
-import { SUPABASE_BUCKET_PHOTOS_PATH } from '../../../utils/const'
+import { SUPABASE_BUCKET_COMMENTS_PATH, SUPABASE_BUCKET_LIKES_PATH, SUPABASE_BUCKET_PHOTOS_PATH } from '../../../utils/const'
 
 type props = {
   user: Profile
@@ -52,6 +52,52 @@ export const UserPhotoEdit: React.FC<props> = ({ user, photoData }) => {
     }
   }
 
+  const handleDelete = async (id: number) => {
+    if (!window.confirm("削除しますか？")) return
+
+    try {
+      // まず likes を取得
+      const { data: likes } = await supabase
+      .from(SUPABASE_BUCKET_LIKES_PATH)
+      .select(`*`)
+        .eq("photoId", id)
+
+      console.log("likes", likes)
+
+      // likes を全削除
+      // FIXME: いい感じにバックエンド側で削除できないか？
+      if (likes) {
+        for (const like of likes) {
+          await supabase.from(SUPABASE_BUCKET_LIKES_PATH).delete().eq('id', like.id)
+        }
+      }
+
+      // まず comments を取得
+      const { data: comments } = await supabase
+      .from(SUPABASE_BUCKET_COMMENTS_PATH)
+      .select(`*`)
+      .eq("photoId", id)
+
+      console.log("comments", comments)
+
+      // likes を全削除
+      // FIXME: いい感じにバックエンド側で削除できないか？
+      if (comments) {
+        for (const comment of comments) {
+          await supabase.from(SUPABASE_BUCKET_COMMENTS_PATH).delete().eq('id', comment.id)
+        }
+      }
+
+      // レコード削除
+      await supabase.from(SUPABASE_BUCKET_PHOTOS_PATH).delete().eq('id', id)
+      toast.success('削除しました')
+      Router.push(`/user/${user.id}`)
+    } catch (error) {
+      console.log(error)
+      toast.error('削除に失敗しました。')
+    }
+  }
+
   return (
     <Main>
       <h2 className="text-xl mb-4">画像編集</h2>
@@ -69,6 +115,9 @@ export const UserPhotoEdit: React.FC<props> = ({ user, photoData }) => {
 
           <input className='mt-6 border-gray-300 border-2 rounded p-1 w-12' type="submit" />
         </form>
+      </div>
+      <div className='mt-4'>
+        <button onClick={() => handleDelete(photoData.id)} className='border-gray-300 border-2 rounded p-1 w-12'>削除</button>
       </div>
     </Main>
   )
