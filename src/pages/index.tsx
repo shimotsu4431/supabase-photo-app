@@ -13,7 +13,7 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
     .select(`
       *,
       comments(*),
-      user: userId!inner(*),
+      user: userId(*),
       likes(*)
     `)
     .eq('is_published', true)

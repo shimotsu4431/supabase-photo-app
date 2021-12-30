@@ -13,7 +13,7 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
 
   const { data: likes } = await supabase
     .from(SUPABASE_BUCKET_LIKES_PATH)
-    .select(`*, photo: photos(*), user: userId!inner(*)`)
+    .select(`*, photo: photos(*), user: userId(*)`)
     .eq("userId", user?.id)
     .order("created_at", { ascending: false })
 

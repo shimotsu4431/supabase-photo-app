@@ -21,7 +21,7 @@ export async function getServerSideProps({ req, params }: GetServerSidePropsCont
 
   const { data: photo } = await supabase
     .from(SUPABASE_BUCKET_PHOTOS_PATH)
-    .select("*, user: userId!inner(*)")
+    .select("*, user: userId(*)")
     .eq("id", params?.id)
     .single()
 

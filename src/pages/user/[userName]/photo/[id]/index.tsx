@@ -10,7 +10,7 @@ import { supabase } from '../../../../../utils/supabaseClient';
 export async function getServerSideProps({ req, params }: GetServerSidePropsContext) {
   const { data: photo } = await supabase
     .from(SUPABASE_BUCKET_PHOTOS_PATH)
-    .select(`*, user: userId!inner(*), likes(*), comments(*, user: userId!inner(*))`)
+    .select(`*, user: userId(*), likes(*), comments(*, user: userId(*))`)
     .eq("id", params?.id)
     .single()
 
