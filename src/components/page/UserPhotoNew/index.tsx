@@ -71,6 +71,9 @@ export const UserPhotoNew: React.FC<props> = ({ user }) => {
         throw new Error("Error")
       }
 
+      // .from() で bucket 指定しているので、getPublicUrl() に渡すパスからは、bucket 名は取り除く必要がある
+      // NG: photos/25aea8bc-aa5e-42ce-b099-da8815c2a50f/fdf945886dfd
+      // OK: 25aea8bc-aa5e-42ce-b099-da8815c2a50f/fdf945886dfd
       const { publicURL } = supabase.storage.from(SUPABASE_BUCKET_PHOTOS_PATH).getPublicUrl(removeBucketPath(key, SUPABASE_BUCKET_PHOTOS_PATH))
 
       // DBにレコード作成
