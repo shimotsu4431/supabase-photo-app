@@ -68,7 +68,7 @@ export const UserPhotoNew: React.FC<props> = ({ user }) => {
       const key = inputData?.Key
 
       if (!key) {
-        throw Error("Error")
+        throw new Error("Error")
       }
 
       const { publicURL } = supabase.storage.from(SUPABASE_BUCKET_PHOTOS_PATH).getPublicUrl(removeBucketPath(key, SUPABASE_BUCKET_PHOTOS_PATH))
