@@ -3,7 +3,6 @@ import { DateTime } from 'luxon'
 import Image from 'next/image'
 
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { Profile } from '../../../hooks/useUser'
 import { supabase } from '../../../utils/supabaseClient'
 import { Main } from '../../ui/Main'
 import Router from 'next/router';
@@ -17,7 +16,7 @@ type props = {
 
 type Inputs = {
   title: string,
-  isPublished: boolean
+  is_published: boolean
 };
 
 export const UserPhotoEdit: React.FC<props> = ({ photoData }) => {
@@ -25,12 +24,12 @@ export const UserPhotoEdit: React.FC<props> = ({ photoData }) => {
 
   useEffect(() => {
     setValue("title", photoData.title)
-    setValue("isPublished", photoData.isPublished)
+    setValue("is_published", photoData.is_published)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   const onSubmit: SubmitHandler<Inputs> = async (data, event): Promise<void> => {
-    const { title, isPublished } = data
+    const { title, is_published } = data
 
     try {
       // レコード更新
@@ -38,7 +37,7 @@ export const UserPhotoEdit: React.FC<props> = ({ photoData }) => {
         .from(SUPABASE_BUCKET_PHOTOS_PATH)
         .update({
           title: title,
-          is_published: isPublished,
+          is_published: is_published,
           updated_at: DateTime.now()
         })
         .match({ id: photoData.id })
@@ -105,8 +104,8 @@ export const UserPhotoEdit: React.FC<props> = ({ photoData }) => {
           <input id="title" className='py-1 px-2 border-2 w-80' {...register("title", { required: true })} />
           {errors.title && <span>This field is required</span>}
 
-          <label htmlFor="isPublished" className='mt-4'>公開状態</label>
-          <input type="checkbox" id="isPublished" className='py-1 px-2 border-2' {...register("isPublished")} />
+          <label htmlFor="is_published" className='mt-4'>公開状態</label>
+          <input type="checkbox" id="is_published" className='py-1 px-2 border-2' {...register("is_published")} />
 
           <input className='mt-6 border-gray-300 border-2 rounded p-1 w-12' type="submit" value={'更新'} />
         </form>

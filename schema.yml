@@ -12,7 +12,7 @@ photos:
   createdAt: Timestamp
   updatedAt: Timestamp
   title: string
-  isPublished: string
+  is_published: string
   url: string
 
 # 画像へのコメント

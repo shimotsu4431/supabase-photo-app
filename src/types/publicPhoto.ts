@@ -4,12 +4,12 @@ import { Like } from "./likes";
 
 export type PublicPhoto = {
   id: number,
-  key: string
   title: string,
   src: string
-  isPublished: boolean
+  is_published: boolean
   updated_at: string | null
   created_at: string
+  key?: string
   comments?: Comment[] | null
   likes?: Like[]
   user?: Profile

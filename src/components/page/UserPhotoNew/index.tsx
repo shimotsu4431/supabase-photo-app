@@ -9,6 +9,7 @@ import { Main } from '../../ui/Main'
 import Router from 'next/router';
 import { toast } from 'react-toastify';
 import { SUPABASE_BUCKET_PHOTOS_PATH } from '../../../utils/const';
+import { removeBucketPath } from '../../../utils/removeBucketPath';
 
 type props = {
   user: Profile
@@ -16,7 +17,7 @@ type props = {
 
 type Inputs = {
   title: string,
-  isPublished: boolean
+  is_published: boolean
   image: File
 };
 
@@ -47,7 +48,7 @@ export const UserPhotoNew: React.FC<props> = ({ user }) => {
   }
 
   const onSubmit: SubmitHandler<Inputs> = async (data, event): Promise<void> => {
-    const { title, isPublished } = data
+    const { title, is_published } = data
 
     if (!newImage) return
 
@@ -64,12 +65,20 @@ export const UserPhotoNew: React.FC<props> = ({ user }) => {
           upsert: false
         })
 
+      const key = inputData?.Key
+
+      if (!key) {
+        throw Error("Error")
+      }
+
+      const { publicURL } = supabase.storage.from(SUPABASE_BUCKET_PHOTOS_PATH).getPublicUrl(removeBucketPath(key, SUPABASE_BUCKET_PHOTOS_PATH))
+
       // DBにレコード作成
       await supabase.from(SUPABASE_BUCKET_PHOTOS_PATH).insert([{
         userId: user.id,
         title: title,
-        is_published: isPublished,
-        url: inputData?.Key
+        is_published: is_published,
+        src: publicURL
       }])
 
       toast.success("画像を投稿しました！")
@@ -89,8 +98,8 @@ export const UserPhotoNew: React.FC<props> = ({ user }) => {
           <input id="title" className='py-1 px-2 border-2 w-80' {...register("title", { required: true })} />
           {errors.title && <span>This field is required</span>}
 
-          <label htmlFor="isPublished" className='mt-4'>公開状態</label>
-          <input type="checkbox" id="isPublished" className='py-1 px-2 border-2 w-4' {...register("isPublished")} />
+          <label htmlFor="is_published" className='mt-4'>公開状態</label>
+          <input type="checkbox" id="is_published" className='py-1 px-2 border-2 w-4' {...register("is_published")} />
 
           <label htmlFor="image" className='mt-4'>画像を選択</label>
           <input

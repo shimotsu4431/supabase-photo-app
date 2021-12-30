@@ -13,7 +13,7 @@ export const UserPhotoList: React.FC<props> = ({ user, publicPhotos }) => {
   return (
     <ul className='flex flex-wrap'>
       {publicPhotos.map((p) => {
-        if (sessionUser?.id !== user.id && !p.isPublished) return null
+        if (sessionUser?.id !== user.id && !p.is_published) return null
 
         return (
           <UserPhotoItem key={p.id} user={user} publicPhoto={p} />

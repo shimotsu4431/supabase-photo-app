@@ -3,9 +3,7 @@ import type { GetServerSidePropsContext, NextPage } from 'next'
 import { DashboardLikes } from '../../../components/page/DashboardLikes';
 import { Layout } from '../../../components/ui/Layout';
 import { PublicPhoto } from '../../../types/publicPhoto';
-import { SUPABASE_BUCKET_LIKES_PATH, SUPABASE_BUCKET_PHOTOS_PATH } from '../../../utils/const';
-import { getPhotoKeyFromBucketPath } from '../../../utils/getPhotoKeyFromBucketPath';
-import { removeBucketPath } from '../../../utils/removeBucketPath';
+import { SUPABASE_BUCKET_LIKES_PATH } from '../../../utils/const';
 import { supabase } from '../../../utils/supabaseClient';
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
@@ -22,17 +20,11 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
   async function setPublicPhotos() {
     if (likes) {
       for (const like of likes) {
-        const { publicURL, error } = supabase.storage.from(SUPABASE_BUCKET_PHOTOS_PATH).getPublicUrl(removeBucketPath(like.photo.url, SUPABASE_BUCKET_PHOTOS_PATH))
-        if (error || !publicURL) {
-          throw error
-        }
-
         publicPhotos.push({
           id: like.photo.id,
-          key: getPhotoKeyFromBucketPath(like.photo.url),
           title: like.photo.title,
-          src: publicURL,
-          isPublished: like.photo.is_published,
+          src: like.photo.src,
+          is_published: like.photo.is_published,
           updated_at: like.photo.updated_at,
           created_at: like.photo.created_at,
           user: like.user
