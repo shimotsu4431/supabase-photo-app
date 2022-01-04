@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { DateTime } from 'luxon'
 import Image from 'next/image'
 import { Profile, useUser } from '../../../hooks/useUser'

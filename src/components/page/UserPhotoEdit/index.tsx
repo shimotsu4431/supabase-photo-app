@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { DateTime } from 'luxon'
 import Image from 'next/image'
 

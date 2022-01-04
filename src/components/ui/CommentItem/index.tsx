@@ -4,11 +4,9 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import { PublicPhoto } from '../../../types/publicPhoto'
 import { Profile, useUser } from '../../../hooks/useUser'
-import { supabase } from '../../../utils/supabaseClient'
 import { toast } from 'react-toastify'
 import Router from 'next/router'
 import { Comment } from '../../../types/comment'
-import { SUPABASE_BUCKET_COMMENTS_PATH } from '../../../utils/const'
 import nl2br from "react-nl2br"
 import { IoPersonCircle } from "react-icons/io5"
 

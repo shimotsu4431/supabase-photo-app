@@ -5,7 +5,7 @@ import { PublicPhoto } from '../../../../../types/publicPhoto';
 import { SUPABASE_BUCKET_PHOTOS_PATH } from '../../../../../utils/const';
 import { supabase } from '../../../../../utils/supabaseClient';
 
-export async function getServerSideProps({ req, params }: GetServerSidePropsContext) {
+export async function getServerSideProps({ params }: GetServerSidePropsContext) {
   const { data: photoData } = await supabase
     .from(SUPABASE_BUCKET_PHOTOS_PATH)
     .select(`*, user: userId(*), likes(*), comments(*, user: userId(*))`)
