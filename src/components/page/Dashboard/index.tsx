@@ -14,7 +14,6 @@ type props = {
 
 export const Dashboard: React.FC<props> = ({ user, publicPhotos }) => {
   const {
-    session,
     profile,
   } = useUser()
 
