@@ -14,8 +14,6 @@ type Inputs = {
 export const Signin: React.FC = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   const {
-    session,
-    signOut,
     signInWithGoogle
   } = useUser()
 
@@ -23,7 +21,7 @@ export const Signin: React.FC = () => {
     const { email, password } = data
 
     try {
-      const { user, error } = await supabase.auth.signUp({
+      await supabase.auth.signUp({
         email: email,
         password: password
       })

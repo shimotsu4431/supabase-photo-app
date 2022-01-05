@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import React from 'react'
-import { useUser } from '../../../hooks/useUser'
 import { PublicPhoto } from '../../../types/publicPhoto'
 import { Main } from '../../ui/Main'
 import { DateTime } from 'luxon'
@@ -12,11 +11,6 @@ type props = {
 }
 
 export const Top: React.FC<props> = ({ publicPhotos }) => {
-  const {
-    session,
-    signOut
-  } = useUser()
-
   return (
     <Main>
       <h2 className="text-xl mb-4">Home</h2>

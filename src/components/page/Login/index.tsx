@@ -23,7 +23,7 @@ export const Login: React.FC = () => {
     const { email, password } = data
 
     try {
-      const { user, error } = await supabase.auth.signIn({
+      const { error } = await supabase.auth.signIn({
         email: email,
         password: password
       })
